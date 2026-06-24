@@ -693,6 +693,11 @@ body::after{ /* grana */
 .ftxt{fill:var(--ink);font-family:var(--display);font-weight:700;font-size:14px}
 .ftxt.sm{fill:var(--ink-3);font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:.04em}
 .ftxt.cap{fill:var(--ink-3);font-family:var(--mono);font-size:10px;letter-spacing:.14em}
+.ftxt.go{fill:var(--navy-bright);font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;opacity:.7;transition:.15s}
+.fbox{cursor:pointer}
+.fbox:hover rect{stroke:var(--navy-bright);stroke-width:2.2}
+.fbox:hover .ftxt.go{opacity:1;fill:#9bacff}
+.fbox:hover .fnode{filter:brightness(1.18)}
 .fwire{fill:none;stroke:rgba(124,135,184,.35);stroke-width:2}
 .fwire.live{stroke:rgba(84,104,214,.55)}
 .flegend{display:flex;gap:18px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-3);padding:6px 4px 10px}
@@ -1033,17 +1038,8 @@ svg.line{width:100%;height:auto;display:block}
       <div class="flow-diagram">
         <div class="dh">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy-bright)" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
-          <h3>Come avanzano le informazioni · dall'ordine all'incasso</h3>
+          <h3>Dai sistemi all'azione, senza Excel in mezzo</h3>
         </div>
-        <div class="pipeline" id="pipeline"></div>
-        <div class="flegend">
-          <span><i style="background:#25c46b"></i>In linea</span>
-          <span><i style="background:#f5b301"></i>Da gestire</span>
-          <span><i style="background:#e1231a"></i>Critico</span>
-          <span style="margin-left:auto;color:var(--ink-3)">Tocca una fase per le ultime 5 righe lette dal gestionale</span>
-        </div>
-      </div>
-      <div hidden>
         <svg viewBox="0 0 1000 470" role="img" aria-label="Diagramma del flusso dati">
           <defs>
             <linearGradient id="coreGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#283570"/><stop offset="1" stop-color="#1a224f"/></linearGradient>
@@ -1067,29 +1063,30 @@ svg.line{width:100%;height:auto;display:block}
           <circle r="3.4" fill="#5468d6"><animateMotion dur="2.1s" repeatCount="indefinite"><mpath href="#fo3"/></animateMotion></circle>
           <!-- colonna SORGENTI -->
           <text x="30" y="20" class="ftxt cap">SISTEMI ESISTENTI</text>
-          <g><rect class="fnode" x="30" y="34" width="220" height="68" rx="12"/><text x="46" y="64" class="ftxt">Gestionale</text><text x="46" y="84" class="ftxt sm">ordini · clienti · listini · 2s</text></g>
-          <g><rect class="fnode attn" x="30" y="142" width="220" height="68" rx="12"/><text x="46" y="172" class="ftxt">MES</text><text x="46" y="192" class="ftxt sm">produzione · cicli · latenza 5s</text></g>
-          <g><rect class="fnode" x="30" y="250" width="220" height="68" rx="12"/><text x="46" y="280" class="ftxt">App Picking</text><text x="46" y="300" class="ftxt sm">prelievi · tracciabilità · 5s</text></g>
-          <g><rect class="fnode" x="30" y="358" width="220" height="68" rx="12"/><text x="46" y="388" class="ftxt">Contabilità</text><text x="46" y="408" class="ftxt sm">fatture · incassi · fido · 1m</text></g>
+          <g class="fbox" onclick="openDrill('stage:ordini')"><rect class="fnode" x="30" y="34" width="220" height="68" rx="12"/><text x="46" y="64" class="ftxt">Gestionale</text><text x="46" y="84" class="ftxt sm">ordini · clienti · listini · 2s</text><text x="238" y="94" text-anchor="end" class="ftxt go">dati →</text></g>
+          <g class="fbox" onclick="openDrill('stage:produzione')"><rect class="fnode attn" x="30" y="142" width="220" height="68" rx="12"/><text x="46" y="172" class="ftxt">MES</text><text x="46" y="192" class="ftxt sm">produzione · cicli · latenza 5s</text><text x="238" y="202" text-anchor="end" class="ftxt go">dati →</text></g>
+          <g class="fbox" onclick="openDrill('stage:picking')"><rect class="fnode attn" x="30" y="250" width="220" height="68" rx="12"/><text x="46" y="280" class="ftxt">App Picking</text><text x="46" y="300" class="ftxt sm">prelievi · tracciabilità · 5s</text><text x="238" y="310" text-anchor="end" class="ftxt go">dati →</text></g>
+          <g class="fbox" onclick="openDrill('stage:incassi')"><rect class="fnode crit" x="30" y="358" width="220" height="68" rx="12"/><text x="46" y="388" class="ftxt">Contabilità</text><text x="46" y="408" class="ftxt sm">fatture · incassi · fido · 1m</text><text x="238" y="418" text-anchor="end" class="ftxt go">dati →</text></g>
           <!-- core -->
           <text x="500" y="150" text-anchor="middle" class="ftxt cap">STRATO AI</text>
-          <g><rect class="fnode core" x="410" y="168" width="200" height="134" rx="16"/>
-            <text x="510" y="218" text-anchor="middle" class="ftxt" style="font-size:17px;fill:#fff">Agenti Airgama</text>
-            <text x="510" y="244" text-anchor="middle" class="ftxt sm" style="fill:#9bacff">monitora · incrocia</text>
-            <text x="510" y="262" text-anchor="middle" class="ftxt sm" style="fill:#9bacff">applica le regole</text>
-            <text x="510" y="280" text-anchor="middle" class="ftxt sm" style="fill:#9bacff">propone la mossa</text>
+          <g class="fbox" onclick="goTo('agent')"><rect class="fnode core" x="410" y="168" width="200" height="134" rx="16"/>
+            <text x="510" y="214" text-anchor="middle" class="ftxt" style="font-size:17px;fill:#fff">Agenti Airgama</text>
+            <text x="510" y="240" text-anchor="middle" class="ftxt sm" style="fill:#9bacff">monitora · incrocia</text>
+            <text x="510" y="258" text-anchor="middle" class="ftxt sm" style="fill:#9bacff">applica le regole</text>
+            <text x="510" y="276" text-anchor="middle" class="ftxt sm" style="fill:#9bacff">propone la mossa</text>
+            <text x="510" y="294" text-anchor="middle" class="ftxt go">apri il caso →</text>
           </g>
           <!-- colonna OUTPUT -->
           <text x="970" y="20" text-anchor="end" class="ftxt cap">DOVE SERVE</text>
-          <g><rect class="fnode" x="760" y="74" width="210" height="68" rx="12"/><text x="776" y="104" class="ftxt">Cabina di Regia</text><text x="776" y="124" class="ftxt sm">allarmi instradati</text></g>
-          <g><rect class="fnode" x="760" y="201" width="210" height="68" rx="12"/><text x="776" y="231" class="ftxt">Insight &amp; BI</text><text x="776" y="251" class="ftxt sm">report · pattern · OLAP</text></g>
-          <g><rect class="fnode" x="760" y="328" width="210" height="68" rx="12"/><text x="776" y="358" class="ftxt">Riordini &amp; azioni</text><text x="776" y="378" class="ftxt sm">bozze pronte da approvare</text></g>
+          <g class="fbox" onclick="goTo('home')"><rect class="fnode" x="760" y="74" width="210" height="68" rx="12"/><text x="776" y="104" class="ftxt">Cabina di Regia</text><text x="776" y="124" class="ftxt sm">allarmi instradati</text><text x="958" y="134" text-anchor="end" class="ftxt go">apri →</text></g>
+          <g class="fbox" onclick="goTo('bi')"><rect class="fnode" x="760" y="201" width="210" height="68" rx="12"/><text x="776" y="231" class="ftxt">Insight &amp; BI</text><text x="776" y="251" class="ftxt sm">report · pattern · OLAP</text><text x="958" y="261" text-anchor="end" class="ftxt go">apri →</text></g>
+          <g class="fbox" onclick="openDrill('magazzino')"><rect class="fnode" x="760" y="328" width="210" height="68" rx="12"/><text x="776" y="358" class="ftxt">Riordini &amp; azioni</text><text x="776" y="378" class="ftxt sm">bozze pronte da approvare</text><text x="958" y="388" text-anchor="end" class="ftxt go">apri →</text></g>
         </svg>
         <div class="flegend">
           <span><i style="background:#5468d6"></i>Flusso regolare</span>
-          <span><i style="background:#f5b301"></i>Flusso con attenzione</span>
-          <span><i style="background:#25c46b"></i>Sorgente online</span>
-          <span style="margin-left:auto;color:var(--ink-3)">I pallini mostrano i dati che si muovono in tempo reale</span>
+          <span><i style="background:#f5b301"></i>Con attenzione</span>
+          <span><i style="background:#e1231a"></i>Critico</span>
+          <span style="margin-left:auto;color:var(--ink-3)">Tocca un box per i dati e l'analisi di dettaglio</span>
         </div>
       </div>
 
