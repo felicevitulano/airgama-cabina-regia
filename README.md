@@ -6,14 +6,14 @@ Prototipo cliccabile ad alta fedeltà di una **cabina di regia con AI agentica**
 
 ## Cosa contiene
 
-Estetica "control-room" dark, palette derivata dal logo Airgama (navy + rosso + tricolore), numeri in monospace, logica a semaforo (verde/giallo/rosso). Sei schermate navigabili con **drill-down a tutta pagina** e breadcrumb:
+Estetica "control-room" dark, palette derivata dal logo Airgama (navy + rosso + tricolore), numeri in monospace, logica a semaforo (verde/giallo/rosso). Sei tab navigabili con **drill-down a tutta pagina** e breadcrumb:
 
-1. **Cabina di Regia** — i tre flussi con badge semaforico, fonti connesse (Gestionale · MES · App Picking · Contabilità) e allarmi attivi con le agent card che "parlano" come un collega.
-2. **Momento Agentico** — il caso Edilsud (ordine € 18.500, scaduto € 12.300, sforamento fido): l'agente legge la situazione, instrada alle persone giuste e propone 3 mosse con impatto stimato.
-3. **App Picking** (mobile) — lista di prelievo dell'operatore: scansione, spunta, avanzamento in tempo reale. Gestisce anche i **prelievi parziali per mancanza a magazzino**: i pezzi non disponibili diventano una segnalazione automatica con bozza di riordino. Genera il dato che oggi manca.
-4. **BI & Insight** — marginalità per famiglia/cliente, rotazione, andamento scaduto, Italia vs export, e l'"insight dell'agente" che fa emergere un pattern non ovvio.
-5. **VoxBI** — BI conversazionale: scrivi una domanda in linguaggio naturale (es. «top 5 clienti per marginalità», «export vs budget», «andamento per mese») e l'agente costruisce in tempo reale narrazione, KPI e grafici coerenti con la richiesta.
-6. **Analisi OLAP** — analyzer ad hoc stile Pentaho/Saiku: trascina (o tocca) dimensioni su Righe/Colonne, misure e filtri e la **tabella pivot (crosstab)** si costruisce al volo, con totali, grafici e commento dell'agente. Preset pronti per le analisi più comuni.
+1. **Flusso Dati** — dashboard grafica iniziale: diagramma animato di come i dati si muovono dai sistemi (Gestionale · MES · App Picking · Contabilità) → strato AI/agenti → output (Cabina di Regia, BI, Riordini), con stato dei flussi, volumi e **punti di attenzione** cliccabili.
+2. **Cabina di Regia** — i tre flussi (Commerciale · Magazzino · Amministrazione) con badge semaforico e un **Centro allarmi** categorizzato con ≥ 7 allarmi per categoria (Commerciale, Magazzino, Amministrazione, Produzione), instradati alla persona giusta. Il caso Edilsud (ordine € 18.500 oltre fido) si apre cliccando il suo allarme: l'agente legge la situazione, instrada e propone 3 mosse con impatto stimato.
+3. **Analisi OLAP** — analyzer ad hoc stile Pentaho/Saiku: trascina (o tocca) dimensioni su Righe/Colonne, misure e filtri e la **tabella pivot (crosstab)** si costruisce al volo, con totali, grafici e commento dell'agente. Preset pronti.
+4. **VoxBI** — BI conversazionale: scrivi una domanda in linguaggio naturale (es. «top 5 clienti per marginalità», «export vs budget», «andamento per mese») e l'agente costruisce in tempo reale narrazione, KPI e grafici coerenti con la richiesta.
+5. **Insight strategici** — marginalità per famiglia/cliente, rotazione, andamento scaduto, Italia vs export, e l'"insight dell'agente" che fa emergere un pattern non ovvio.
+6. **App Picking** (mobile) — lista di prelievo dell'operatore: scansione, spunta, avanzamento in tempo reale. Gestisce anche i **prelievi parziali per mancanza a magazzino**: i pezzi non disponibili diventano una segnalazione automatica con bozza di riordino. Genera il dato che oggi manca.
 
 Drill-down disponibili su flussi, fonti, allarmi, KPI, famiglie di prodotto, clienti, articoli di picking e **singole righe ordine**.
 
