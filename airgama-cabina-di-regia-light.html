@@ -470,6 +470,21 @@ body::after{ /* grana */
 .flow-diagram .dh{display:flex;align-items:center;gap:10px;margin-bottom:6px}
 .flow-diagram .dh h3{font-family:var(--display);font-weight:700;font-size:15px;flex:1}
 .flow-diagram>svg{width:100%;height:auto;display:block}
+.pipeline{display:flex;align-items:stretch;gap:4px;overflow-x:auto;padding:6px 2px 10px}
+.stage{flex:1 1 0;min-width:120px;background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);border-top:3px solid var(--line);border-radius:12px;padding:12px 11px;cursor:pointer;transition:.15s;display:flex;flex-direction:column;gap:8px;position:relative}
+.stage:hover{transform:translateY(-3px);border-color:rgba(84,104,214,.6)}
+.stage.crit{border-top-color:var(--red)} .stage.warn{border-top-color:var(--warn)} .stage.ok{border-top-color:var(--ok)}
+.stage .st-ic{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.05);display:grid;place-items:center;color:var(--ink-2)}
+.stage .st-ic svg{width:16px;height:16px}
+.stage .st-n{font-family:var(--display);font-weight:700;font-size:12.5px;line-height:1.2}
+.stage .st-c{font-family:var(--mono);font-weight:700;font-size:19px;line-height:1}
+.stage .st-l{font-size:10px;color:var(--ink-3);line-height:1.3}
+.stage .st-go{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--navy-bright);margin-top:auto;display:flex;align-items:center;gap:4px}
+.stage .st-dot{position:absolute;top:11px;right:11px;width:8px;height:8px;border-radius:50%}
+.stage.crit .st-dot{background:var(--red)} .stage.warn .st-dot{background:var(--warn)} .stage.ok .st-dot{background:var(--ok)}
+.pchev{flex:0 0 auto;align-self:center;color:var(--ink-3);display:flex}
+.pchev svg{width:16px;height:16px}
+@media(max-width:780px){.pipeline{flex-direction:column}.stage{min-width:0}.pchev{transform:rotate(90deg);margin:1px 0}}
 .fnode{fill:var(--panel-2);stroke:var(--line);stroke-width:1.5}
 .fnode.core{fill:url(#coreGrad);stroke:rgba(84,104,214,.6)}
 .fnode.attn{stroke:rgba(245,179,1,.7)}
@@ -778,8 +793,17 @@ svg.line{width:100%;height:auto;display:block}
       <div class="flow-diagram">
         <div class="dh">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy-bright)" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
-          <h3>Dai sistemi all'azione, senza Excel in mezzo</h3>
+          <h3>Come avanzano le informazioni · dall'ordine all'incasso</h3>
         </div>
+        <div class="pipeline" id="pipeline"></div>
+        <div class="flegend">
+          <span><i style="background:#25c46b"></i>In linea</span>
+          <span><i style="background:#f5b301"></i>Da gestire</span>
+          <span><i style="background:#e1231a"></i>Critico</span>
+          <span style="margin-left:auto;color:var(--ink-3)">Tocca una fase per le ultime 5 righe lette dal gestionale</span>
+        </div>
+      </div>
+      <div hidden>
         <svg viewBox="0 0 1000 470" role="img" aria-label="Diagramma del flusso dati">
           <defs>
             <linearGradient id="coreGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#283570"/><stop offset="1" stop-color="#1a224f"/></linearGradient>
@@ -1919,7 +1943,7 @@ function simImpatto(){
 }
 
 /* --- Dispatcher + wiring --- */
-const DRILL={commerciale:drillCommerciale,magazzino:drillMagazzino,amministrazione:drillAmministrazione,fonte:drillFonte,alarm_magazzino:drillAlarmMagazzino,alarm_produzione:drillAlarmProduzione,kpi:drillKpi,fam:drillFamiglia,cli:drillCliente,item:drillItem,ordine:drillOrdine};
+const DRILL={commerciale:drillCommerciale,magazzino:drillMagazzino,amministrazione:drillAmministrazione,fonte:drillFonte,alarm_magazzino:drillAlarmMagazzino,alarm_produzione:drillAlarmProduzione,kpi:drillKpi,fam:drillFamiglia,cli:drillCliente,item:drillItem,ordine:drillOrdine,stage:drillStage};
 function wireDrills(){
   document.querySelectorAll('.panel[data-drill] .panel-b').forEach(b=>{
     const h=document.createElement('div'); h.className='drill-hint';
@@ -2341,6 +2365,95 @@ document.getElementById('alarmCenter').addEventListener('click',function(e){
   else toast('info',a.getAttribute('data-t'),"Allarme preso in carico · l'agente ha già preparato la proposta. Assegnato a "+a.getAttribute('data-who')+'.');
 });
 renderAlarmCenter();
+
+/* ============================================================
+   Flusso Dati — pipeline order-to-cash (8 fasi) + ultime 5 righe
+   ============================================================ */
+const STAGE_ICON={
+  ordini:'<path d="M3 3h2l2 13h11l2-8H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/>',
+  credito:'<path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M14 8.5h-3a1.8 1.8 0 0 0 0 3.6h2a1.8 1.8 0 0 1 0 3.6h-3"/>',
+  produzione:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+  magazzino:'<path d="M3 9l9-6 9 6v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M3 13h18"/>',
+  picking:'<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4"/>',
+  spedizione:'<path d="M1 4h14v11H1z"/><path d="M15 8h4l3 3v4h-7"/><circle cx="6" cy="18" r="1.6"/><circle cx="18" cy="18" r="1.6"/>',
+  fatture:'<path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h6M9 17h5"/>',
+  incassi:'<path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>'
+};
+const STAGES={
+  ordini:{name:'Ordini',sev:'warn',count:'23',clabel:'ordini oggi',module:'Vendite',lat:'2s',
+    kpis:[['Ordini oggi','23'],['Valore','€ 47.300'],['Bloccati','1','bad']],
+    lead:'Ordini ricevuti oggi e letti dal Gestionale, arricchiti con stato di produzione (MES) e controllo credito.',
+    note:'Da qui parte tutto: ogni ordine viene subito verificato su credito e disponibilità.',
+    cols:[{t:'Ordine'},{t:'Ora'},{t:'Cliente'},{t:'Valore',n:1},{t:'Stato'}],
+    rows:[{c:['OC-2293','14:55','Idrotermica Salento','€ 3.300'],st:['warn','In preparazione']},{c:['OC-2290','13:20','Edilizia Salentina','€ 1.980'],st:['ok','Confermato']},{c:['OC-2287','11:48','Gruppo Edile Brindisino','€ 4.120'],st:['ok','Confermato']},{c:['OC-2284','11:01','Edilsud Costruzioni','€ 18.500'],st:['crit','Bloccato']},{c:['OC-2281','10:12','Costruzioni Adriatica','€ 5.900'],st:['ok','Confermato']}]},
+  credito:{name:'Controllo Credito',sev:'crit',count:'3',clabel:'in verifica',module:'Contabilità · Fidi',lat:'1m',
+    kpis:[['In verifica','3'],['Bloccati','1','bad'],['Oltre fido','2','bad']],
+    lead:'L\'agente incrocia ordine e posizione contabile: esposizione vs fido per ogni cliente, prima della produzione.',
+    note:'È il varco dove l\'agente interviene: l\'ordine Edilsud è in holding finché non decidi tu.',
+    cols:[{t:'Ordine'},{t:'Cliente'},{t:'Esposizione',n:1},{t:'Fido',n:1},{t:'Esito'}],
+    rows:[{c:['OC-2284','Edilsud Costruzioni','€ 30.800','€ 22.000'],st:['crit','Bloccato']},{c:['OC-2281','Costruzioni Adriatica','€ 28.400','€ 25.000'],st:['warn','In revisione']},{c:['OC-2287','Gruppo Edile Brindisino','€ 19.700','€ 18.000'],st:['warn','In revisione']},{c:['OC-2293','Idrotermica Salento','€ 5.400','€ 40.000'],st:['ok','OK']},{c:['OC-2290','Edilizia Salentina','€ 8.900','€ 15.000'],st:['ok','OK']}]},
+  produzione:{name:'Produzione',sev:'warn',count:'8',clabel:'OP in corso',module:'MES',lat:'5s',
+    kpis:[['OP in corso','8'],['In ritardo','1','bad'],['Completate oggi','5','good']],
+    lead:'Avanzamento degli ordini di produzione letto dal MES, linea per linea, con tempi ciclo reali.',
+    note:'Sulla linea estrusione 2 il tempo ciclo è salito dell\'8%: possibile usura stampo, controllo proposto.',
+    cols:[{t:'OP'},{t:'Articolo'},{t:'Q.tà',n:1},{t:'Linea'},{t:'Stato'}],
+    rows:[{c:['OP-1185','Pozzetto PP 30×30','150','Estrusione 1'],st:['warn','In ritardo']},{c:['OP-1186','Raccordo PVC ø110','600','Estrusione 2'],st:['ok','In corso']},{c:['OP-1187','Valvola anti-riflusso ø50','200','Stampaggio'],st:['ok','In corso']},{c:['OP-1188','Griglia aerazione 15×15','300','Stampaggio'],st:['dim','In coda']},{c:['OP-1184','Sifone PVC ø40','400','Estrusione 1'],st:['ok','Completato']}]},
+  magazzino:{name:'Magazzino',sev:'warn',count:'7',clabel:'sotto scorta',module:'Giacenze',lat:'5s',
+    kpis:[['Sotto scorta','7'],['Spedizioni','12'],['Rotazione','5,4×']],
+    lead:'Giacenze e copertura calcolate sui consumi reali: cosa va riordinato prima che blocchi una spedizione.',
+    note:'7 codici sotto la scorta minima: l\'agente ha già preparato le bozze di riordino per Aldo Bruno.',
+    cols:[{t:'Codice'},{t:'Descrizione'},{t:'Giac./Min',n:1},{t:'Copertura',n:1},{t:'Stato'}],
+    rows:[{c:['SF-PVC-40','Sifone PVC ø40','120 / 200','6 gg'],st:['crit','Sotto scorta']},{c:['CW-INC-01','Cassetta WC incasso','25 / 60','5 gg'],st:['crit','Sotto scorta']},{c:['GR-AE-15','Griglia aerazione 15×15','80 / 150','7 gg'],st:['warn','Attenzione']},{c:['RC-PVC-110','Raccordo PVC ø110','340 / 500','9 gg'],st:['ok','OK']},{c:['VL-AR-50','Valvola anti-riflusso ø50','45 / 90','11 gg'],st:['ok','OK']}]},
+  picking:{name:'Picking',sev:'warn',count:'4',clabel:'liste attive',module:'App Picking',lat:'5s',
+    kpis:[['Liste attive','4'],['Parziali','1','bad'],['Pezzi oggi','143']],
+    lead:'Lo stato dei prelievi in tempo reale dal palmare dell\'operatore: ogni spunta genera il dato di tracciabilità.',
+    note:'SP-2284 è un prelievo parziale: 9 pz di Raccordo PVC mancanti diventano subito una segnalazione di riordino.',
+    cols:[{t:'Spedizione'},{t:'Cliente'},{t:'Righe',n:1},{t:'Avanz.',n:1},{t:'Stato'}],
+    rows:[{c:['SP-2284','Idrotermica Salento','4','3/4'],st:['warn','Parziale']},{c:['SP-2283','Edil Murge','6','6/6'],st:['ok','Completo']},{c:['SP-2282','Termoidraulica Jonica','3','1/3'],st:['dim','In corso']},{c:['SP-2281','Idraulica Pugliese','2','2/2'],st:['ok','Completo']},{c:['SP-2280','Costruzioni Adriatica','5','0/5'],st:['dim','In coda']}]},
+  spedizione:{name:'Spedizione',sev:'ok',count:'12',clabel:'in preparazione',module:'Logistica · DDT',lat:'2s',
+    kpis:[['In preparazione','12'],['In transito','5'],['Consegnate oggi','7','good']],
+    lead:'Documenti di trasporto e affidamento ai vettori: dove sono i colli e quando arrivano al cliente.',
+    note:'Il flusso spedizioni è regolare; lo stato consegna torna al commerciale e alla fatturazione.',
+    cols:[{t:'DDT'},{t:'Cliente'},{t:'Colli',n:1},{t:'Vettore'},{t:'Stato'}],
+    rows:[{c:['DDT-0488','Edil Murge','6','Bartolini'],st:['ok','In transito']},{c:['DDT-0487','Idraulica Pugliese','2','GLS'],st:['ok','Consegnato']},{c:['DDT-0486','Idrotermica Salento','12','Bartolini'],st:['dim','In preparazione']},{c:['DDT-0485','Termoidraulica Jonica','4','SDA'],st:['dim','In preparazione']},{c:['DDT-0484','Edilizia Salentina','3','GLS'],st:['ok','In transito']}]},
+  fatture:{name:'Fatture',sev:'warn',count:'18',clabel:'da emettere',module:'Ciclo attivo',lat:'1m',
+    kpis:[['Da emettere','18'],['Emesse oggi','9','good'],['Imponibile','€ 28.600']],
+    lead:'Dalla consegna alla fattura: cosa è già emesso e cosa è ancora da fatturare, con le scadenze.',
+    note:'Un DDT consegnato non ancora fatturato è cassa che ritarda: l\'agente lo segnala all\'amministrazione.',
+    cols:[{t:'Fattura'},{t:'Cliente'},{t:'Imponibile',n:1},{t:'Scad.',n:1},{t:'Stato'}],
+    rows:[{c:['FT-1042','Idraulica Pugliese','€ 2.760','30/07'],st:['ok','Emessa']},{c:['FT-1041','Edil Murge','€ 4.180','28/07'],st:['ok','Emessa']},{c:['FT-1040','Idrotermica Salento','€ 6.240','—'],st:['warn','Da emettere']},{c:['FT-1039','Termoidraulica Jonica','€ 9.420','25/07'],st:['ok','Emessa']},{c:['FT-1038','Costruzioni Adriatica','€ 5.900','20/07'],st:['ok','Emessa']}]},
+  incassi:{name:'Incassi',sev:'crit',count:'€ 86.400',clabel:'scaduto',module:'Tesoreria',lat:'1m',
+    kpis:[['Scaduto','€ 86.400','bad'],['Oltre fido','2','bad'],['Cassa','€ 214.500']],
+    lead:'La chiusura del ciclo: incassi attesi, scaduto e clienti a rischio fido che pesano sulla liquidità.',
+    note:'Lo scaduto è concentrato su 3 clienti edili: l\'agente ha pronti i solleciti e il piano di rientro.',
+    cols:[{t:'Cliente'},{t:'Documento'},{t:'Importo',n:1},{t:'Scad. gg',n:1},{t:'Stato'}],
+    rows:[{c:['Costruzioni Adriatica','FT-0991','€ 28.400','62'],st:['crit','Scaduto']},{c:['Gruppo Edile Brindisino','FT-1002','€ 19.700','38'],st:['crit','Scaduto']},{c:['Edilsud Costruzioni','FT-1010','€ 12.300','47'],st:['crit','Scaduto']},{c:['Edil Murge','FT-1039','€ 9.800','21'],st:['warn','Entro fido']},{c:['Idrotermica Salento','FT-1041','€ 4.180','—'],st:['ok','A scadere']}]}
+};
+function stIco(p){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+p+'</svg>';}
+function renderPipeline(){
+  const host=document.getElementById('pipeline'); if(!host)return;
+  const keys=Object.keys(STAGES);
+  host.innerHTML=keys.map((k,i)=>{
+    const s=STAGES[k];
+    const card='<button class="stage '+s.sev+'" data-drill="stage:'+k+'"><span class="st-dot"></span><span class="st-ic">'+stIco(STAGE_ICON[k])+'</span><span class="st-n">'+s.name+'</span><span class="st-c">'+s.count+'</span><span class="st-l">'+s.clabel+'</span><span class="st-go">ultime 5 →</span></button>';
+    const chev=i<keys.length-1?'<span class="pchev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg></span>':'';
+    return card+chev;
+  }).join('');
+}
+function drillStage(key){
+  const s=STAGES[key]; if(!s)return;
+  const thead=s.cols.map(c=>'<th class="'+(c.n?'n':'')+'">'+c.t+'</th>').join('');
+  const tb=s.rows.map(r=>'<tr>'+r.c.map((cell,i)=>'<td class="'+(s.cols[i].n?'n':'')+'">'+cell+'</td>').join('')+'<td>'+dpill(r.st[0],r.st[1])+'</td></tr>').join('');
+  const html='<div class="detail-wrap">'+
+    dhead('Flusso dati · '+s.name,s.name,'Ultime 5 righe lette dal Gestionale · modulo '+s.module+' · sync '+s.lat)+
+    sum3(s.kpis)+
+    '<p class="d-lead">'+s.lead+'</p>'+
+    panel('Ultime 5 righe dal gestionale','<table class="dtbl"><thead><tr>'+thead+'</tr></thead><tbody>'+tb+'</tbody></table><p class="d-mini">Sola lettura · sorgente: Gestionale · modulo '+s.module+'</p>')+
+    '<div class="d-note">'+NOTE_SVG+'<span>'+s.note+'</span></div>'+
+  '</div>';
+  detail(s.name,html);
+}
+renderPipeline();
 
 document.addEventListener('keydown',function(e){ if(e.key==='Escape' && document.getElementById('screen-detail').classList.contains('active')) back(); });
 wireDrills();
