@@ -6,12 +6,13 @@ Prototipo cliccabile ad alta fedeltà di una **cabina di regia con AI agentica**
 
 ## Cosa contiene
 
-Estetica "control-room" dark, palette derivata dal logo Airgama (navy + rosso + tricolore), numeri in monospace, logica a semaforo (verde/giallo/rosso). Quattro schermate navigabili con **drill-down a tutta pagina** e breadcrumb:
+Estetica "control-room" dark, palette derivata dal logo Airgama (navy + rosso + tricolore), numeri in monospace, logica a semaforo (verde/giallo/rosso). Cinque schermate navigabili con **drill-down a tutta pagina** e breadcrumb:
 
 1. **Cabina di Regia** — i tre flussi con badge semaforico, fonti connesse (Gestionale · MES · App Picking · Contabilità) e allarmi attivi con le agent card che "parlano" come un collega.
 2. **Momento Agentico** — il caso Edilsud (ordine € 18.500, scaduto € 12.300, sforamento fido): l'agente legge la situazione, instrada alle persone giuste e propone 3 mosse con impatto stimato.
-3. **App Picking** (mobile) — lista di prelievo dell'operatore: scansione, spunta, avanzamento in tempo reale; genera il dato che oggi manca.
+3. **App Picking** (mobile) — lista di prelievo dell'operatore: scansione, spunta, avanzamento in tempo reale. Gestisce anche i **prelievi parziali per mancanza a magazzino**: i pezzi non disponibili diventano una segnalazione automatica con bozza di riordino. Genera il dato che oggi manca.
 4. **BI & Insight** — marginalità per famiglia/cliente, rotazione, andamento scaduto, Italia vs export, e l'"insight dell'agente" che fa emergere un pattern non ovvio.
+5. **VoxBI** — BI conversazionale: scrivi una domanda in linguaggio naturale (es. «top 5 clienti per marginalità», «export vs budget», «andamento per mese») e l'agente costruisce in tempo reale narrazione, KPI e grafici coerenti con la richiesta.
 
 Drill-down disponibili su flussi, fonti, allarmi, KPI, famiglie di prodotto, clienti, articoli di picking e **singole righe ordine**.
 

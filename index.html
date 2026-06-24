@@ -508,12 +508,30 @@ body::after{ /* grana */
 .prog-wrap .pl b{color:#fff}
 .plist{flex:1;overflow-y:auto;padding:8px 14px 6px;position:relative;z-index:2}
 .plist::-webkit-scrollbar{width:0}
-.pick{display:flex;align-items:center;gap:12px;padding:13px 12px;border-radius:12px;border:1px solid var(--line);background:var(--panel);margin-bottom:9px;transition:.18s;cursor:pointer}
+.pick{display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding:13px 12px;border-radius:12px;border:1px solid var(--line);background:var(--panel);margin-bottom:9px;transition:.18s;cursor:pointer}
 .pick:active{transform:scale(.99)}
 .pick.done{opacity:.55;background:var(--panel-2);border-color:rgba(37,196,107,.35)}
 .pick.done .pname{text-decoration:line-through;text-decoration-color:var(--ink-3)}
+.pick.partial{background:var(--panel-2);border-color:rgba(245,179,1,.5)}
 .pick .chk{width:30px;height:30px;flex:0 0 30px;border-radius:9px;border:2px solid var(--line);display:grid;place-items:center;transition:.18s;color:transparent}
 .pick.done .chk{background:var(--ok);border-color:var(--ok);color:#06210f}
+.pick.partial .chk{background:var(--warn);border-color:var(--warn);color:#3a2c00}
+.pshort{font-family:var(--mono);font-size:10px;color:var(--warn);margin-top:5px}
+.pick-parz{margin-left:9px;width:30px;height:30px;flex:0 0 30px;border-radius:8px;border:1px solid var(--line);background:var(--raised);color:var(--ink-3);display:grid;place-items:center;cursor:pointer;align-self:center;transition:.15s}
+.pick-parz:hover{border-color:var(--warn);color:var(--warn)}
+.pick-parz svg{width:15px;height:15px}
+.pstep{flex:1 1 100%;display:none;margin-top:4px;padding-top:11px;border-top:1px dashed var(--line)}
+.pick.editing{cursor:default}
+.pick.editing .pstep{display:block}
+.psl{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--warn);margin-bottom:9px}
+.psrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.psb{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--raised);color:var(--ink);font-size:18px;font-weight:700;line-height:1;cursor:pointer;flex:0 0 auto}
+.psb:hover{border-color:var(--warn)}
+.psv{font-family:var(--mono);font-weight:700;font-size:18px;min-width:38px;text-align:center;color:#fff}
+.psmax{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.psc{margin-left:auto;background:var(--warn);color:#2a2000;border:none;border-radius:9px;font-family:var(--display);font-weight:700;font-size:12.5px;padding:10px 14px;cursor:pointer}
+.psx{background:var(--raised);color:var(--ink-2);border:1px solid var(--line);border-radius:9px;font-family:var(--display);font-weight:700;font-size:12.5px;padding:10px 12px;cursor:pointer}
+.pick .pqty.part{color:var(--warn)}
 .pick .pinfo{flex:1;min-width:0}
 .pick .pname{font-weight:600;font-size:13px;line-height:1.25}
 .pick .pcode{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:4px;display:flex;gap:8px;flex-wrap:wrap}
@@ -553,6 +571,46 @@ body::after{ /* grana */
 .band{font-family:var(--mono);font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 7px;border-radius:20px}
 .band.hi{background:var(--ok-bg);color:var(--ok)} .band.mid{background:rgba(84,104,214,.16);color:#9bacff} .band.lo{background:var(--warn-bg);color:var(--warn)}
 .legend.bands i.bl.hi{background:#25c46b} .legend.bands i.bl.mid{background:#5468d6} .legend.bands i.bl.lo{background:#f5b301}
+
+/* ===== VoxBI ===== */
+.vox-wrap{max-width:1180px;margin:0 auto}
+.vox-ask{background:radial-gradient(140% 130% at 100% 0,rgba(225,35,26,.12),transparent 50%),linear-gradient(135deg,var(--navy),#1a224f);border:1px solid rgba(84,104,214,.4);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow)}
+.vox-ask-h{display:flex;align-items:center;gap:11px;margin-bottom:15px}
+.vox-mic{width:32px;height:32px;flex:0 0 32px;border-radius:9px;background:var(--navy-bright);display:grid;place-items:center}
+.vox-ttl{font-family:var(--display);font-weight:800;font-size:18px;color:#fff;letter-spacing:.01em}
+.vox-sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#9bacff;margin-top:2px}
+.vox-input-row{display:flex;gap:10px;flex-wrap:wrap}
+#voxInput{flex:1;min-width:260px;appearance:none;border:1px solid rgba(84,104,214,.4);background:rgba(8,12,36,.6);color:#fff;font-family:var(--body);font-size:14px;padding:12px 14px;border-radius:10px;outline:none;transition:.15s}
+#voxInput:focus{border-color:var(--navy-bright)}
+#voxInput::placeholder{color:var(--ink-3)}
+.vox-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.vox-chip{appearance:none;cursor:pointer;border:1px solid rgba(84,104,214,.4);background:rgba(84,104,214,.12);color:#9bacff;font-family:var(--body);font-size:12px;font-weight:600;padding:7px 12px;border-radius:30px;transition:.15s}
+.vox-chip:hover{border-color:var(--navy-bright);color:#fff;background:rgba(84,104,214,.22)}
+.vox-empty{margin-top:22px;text-align:center;color:var(--ink-3);font-size:13.5px;line-height:1.6;max-width:560px;margin-left:auto;margin-right:auto}
+.vox-empty b{color:var(--ink-2)}
+.vox-report{margin-top:18px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow)}
+.vox-rhead{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.vox-rhead .rh-l{flex:1;min-width:240px}
+.vox-eyebrow{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
+.vox-rhead h2{font-family:var(--display);font-weight:700;font-size:18px;color:var(--ink);margin:4px 0 2px}
+.vox-rhead .rh-sub{font-size:12px;color:var(--ink-3)}
+.vox-kpis{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.vox-kpi{flex:1;min-width:130px;background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+.vox-kpi .kv{font-family:var(--mono);font-size:22px;font-weight:700;line-height:1}
+.vox-kpi .kl{font-size:11px;color:var(--ink-3);margin-top:6px}
+.vox-narr{display:flex;gap:11px;background:linear-gradient(135deg,var(--navy),#1a224f);border:1px solid rgba(84,104,214,.35);border-radius:12px;padding:14px 16px;margin-bottom:16px}
+.vox-narr .av{width:26px;height:26px;flex:0 0 26px;border-radius:7px;background:var(--navy-bright);color:#fff;font-family:var(--display);font-weight:700;font-size:11px;display:grid;place-items:center}
+.vox-narr ul{margin:2px 0;padding-left:18px;font-size:13px;line-height:1.6;color:var(--ink-2)}
+.vox-narr ul b,.vox-narr ul strong{color:#fff}
+.vox-sech{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin-bottom:11px}
+.vox-charts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.vox-chart{background:var(--panel-2);border:1px solid var(--line);border-radius:12px;padding:15px 16px;min-width:0}
+.vox-chart .ct{font-family:var(--display);font-weight:700;font-size:13.5px;color:var(--ink)}
+.vox-chart .cs{font-size:11px;color:var(--ink-3);margin-bottom:13px}
+.vctbl{width:100%;border-collapse:collapse}
+.vctbl th{padding:7px 9px;font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--line);text-align:left}
+.vctbl td{padding:8px 9px;border-bottom:1px solid var(--line-soft);font-size:12px;color:var(--ink-2)}
+@media(max-width:760px){.vox-charts{grid-template-columns:1fr}}
 .hbar .ht{height:11px;border-radius:30px;background:rgba(255,255,255,.06);overflow:hidden}
 .hbar .ht i{display:block;height:100%;border-radius:30px;transition:width 1s cubic-bezier(.2,.8,.2,1)}
 
@@ -763,6 +821,11 @@ svg.line{width:100%;height:auto;display:block}
     <button class="nav-item" data-screen="bi">
       <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="7"/><rect x="12" y="7" width="3" height="11"/><rect x="17" y="13" width="3" height="5"/></svg>
       BI &amp; Insight
+    </button>
+    <button class="nav-item" data-screen="vox">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+      VoxBI
+      <span class="tag dev">AI</span>
     </button>
 
     <div class="rail-foot">
@@ -1114,12 +1177,12 @@ svg.line{width:100%;height:auto;display:block}
           </div>
 
           <div class="prog-wrap">
-            <div class="pl"><span>Avanzamento prelievo</span><b><span id="pk-done">0</span>/4 righe · <span id="pk-pz">0</span>/143 pz</b></div>
+            <div class="pl"><span>Avanzamento prelievo</span><b><span id="pk-done">0</span>/4 righe · <span id="pk-pz">0</span>/143 pz<span id="pk-missing" style="display:none;color:var(--warn)"></span></b></div>
             <div class="bar"><i id="pk-bar" style="width:0"></i></div>
           </div>
 
           <div class="plist" id="plist">
-            <div class="pick" data-qty="40" onclick="togglePick(this)">
+            <div class="pick" data-qty="40" onclick="togglePick(this,event)">
               <div class="chk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6"/></svg></div>
               <div class="pinfo">
                 <div class="pname">Raccordo PVC ø110</div>
@@ -1128,7 +1191,7 @@ svg.line{width:100%;height:auto;display:block}
               <div class="pqty">40<small>pz</small></div>
             </div>
 
-            <div class="pick" data-qty="25" onclick="togglePick(this)">
+            <div class="pick" data-qty="25" onclick="togglePick(this,event)">
               <div class="chk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6"/></svg></div>
               <div class="pinfo">
                 <div class="pname">Sifone PVC ø40</div>
@@ -1137,7 +1200,7 @@ svg.line{width:100%;height:auto;display:block}
               <div class="pqty">25<small>pz</small></div>
             </div>
 
-            <div class="pick" data-qty="60" onclick="togglePick(this)">
+            <div class="pick" data-qty="60" onclick="togglePick(this,event)">
               <div class="chk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6"/></svg></div>
               <div class="pinfo">
                 <div class="pname">Griglia di aerazione 15×15</div>
@@ -1146,7 +1209,7 @@ svg.line{width:100%;height:auto;display:block}
               <div class="pqty">60<small>pz</small></div>
             </div>
 
-            <div class="pick" data-qty="18" onclick="togglePick(this)">
+            <div class="pick" data-qty="18" onclick="togglePick(this,event)">
               <div class="chk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6"/></svg></div>
               <div class="pinfo">
                 <div class="pname">Canale drenaggio suolo H200</div>
@@ -1171,7 +1234,7 @@ svg.line{width:100%;height:auto;display:block}
 
       <div class="data-note">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="4"/></svg>
-        <p><b>Qui nasce un dato che oggi non esiste.</b> Tempo di prelievo, accuratezza per operatore, ubicazioni più lente: ogni spunta diventa tracciabilità in tempo reale per la BI e per gli agenti — senza più Excel o conferme a voce.</p>
+        <p><b>Qui nasce un dato che oggi non esiste.</b> Tempo di prelievo, accuratezza per operatore, ubicazioni più lente: ogni spunta diventa tracciabilità in tempo reale per la BI e per gli agenti — senza più Excel o conferme a voce. E un <b>prelievo parziale</b> (tasto ▣) registra subito la mancanza: i pezzi non disponibili diventano una segnalazione automatica a magazzino con bozza di riordino.</p>
       </div>
     </div>
   </section>
@@ -1330,6 +1393,44 @@ svg.line{width:100%;height:auto;display:block}
   </section>
 
   <!-- ========================================================= -->
+  <!-- SCHERMATA 5 — VOXBI (BI conversazionale) -->
+  <!-- ========================================================= -->
+  <section class="screen" id="screen-vox">
+    <header class="topbar">
+      <button class="mnav" onclick="toggleRail()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      <div class="tb-title">
+        <h1>VoxBI</h1>
+        <p>BI conversazionale · fai una domanda, l'agente costruisce il report</p>
+      </div>
+      <div class="tb-spacer"></div>
+    </header>
+    <div class="content">
+      <div class="vox-wrap">
+        <div class="vox-ask">
+          <div class="vox-ask-h">
+            <span class="vox-mic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>
+            <div><div class="vox-ttl">VoxBI</div><div class="vox-sub">chiedi in linguaggio naturale</div></div>
+          </div>
+          <div class="vox-input-row">
+            <input id="voxInput" type="text" autocomplete="off" placeholder="Es. «Margine per cliente in Italia» oppure «Andamento vendite vs budget»" onkeydown="if(event.key==='Enter')voxSubmit()">
+            <button class="btn primary" onclick="voxSubmit()">Genera report →</button>
+          </div>
+          <div class="vox-chips">
+            <button class="vox-chip" onclick="voxAsk('Quali sono i 5 clienti più redditizi?')">Quali sono i 5 clienti più redditizi?</button>
+            <button class="vox-chip" onclick="voxAsk('Come va l\'export rispetto al budget?')">Come va l'export rispetto al budget?</button>
+            <button class="vox-chip" onclick="voxAsk('Andamento per mese del venduto')">Andamento per mese del venduto</button>
+            <button class="vox-chip" onclick="voxAsk('Marginalità per famiglia di prodotto')">Marginalità per famiglia</button>
+            <button class="vox-chip" onclick="voxAsk('Scaduto per cliente')">Scaduto per cliente</button>
+          </div>
+        </div>
+        <div id="voxResults">
+          <div class="vox-empty">Scrivi una richiesta o tocca un esempio: genero <b>narrazione e grafici in tempo reale</b>, scelti in base alla domanda. Tutto offline, su dati sintetici.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
   <!-- SCHERMATA DINAMICA — DRILL-DOWN -->
   <!-- ========================================================= -->
   <section class="screen" id="screen-detail">
@@ -1348,8 +1449,8 @@ svg.line{width:100%;height:auto;display:block}
 
 <script>
 /* ===== Navigazione tra schermate ===== */
-const screens = {home:'screen-home', agent:'screen-agent', picking:'screen-picking', bi:'screen-bi'};
-const mainLabels = {home:'Cabina di Regia', agent:'Momento Agentico', picking:'App Picking', bi:'BI & Insight'};
+const screens = {home:'screen-home', agent:'screen-agent', picking:'screen-picking', bi:'screen-bi', vox:'screen-vox'};
+const mainLabels = {home:'Cabina di Regia', agent:'Momento Agentico', picking:'App Picking', bi:'BI & Insight', vox:'VoxBI'};
 let currentMain = 'home';
 let detailStack = [];
 function showOnly(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active', s.id===id));}
@@ -1425,27 +1526,90 @@ setInterval(tick,1000); tick();
 /* ===== Picking ===== */
 function recalcPick(){
   const picks=[...document.querySelectorAll('#plist .pick')];
-  const done=picks.filter(p=>p.classList.contains('done'));
-  const pz=done.reduce((s,p)=>s+ +p.dataset.qty,0);
-  document.getElementById('pk-done').textContent=done.length;
+  let acted=0,pz=0,missing=0;
+  picks.forEach(p=>{
+    const q=+p.dataset.qty;
+    if(p.classList.contains('done')){acted++;pz+=q;}
+    else if(p.classList.contains('partial')){acted++;const got=+(p.dataset.picked||0);pz+=got;missing+=(q-got);}
+  });
+  document.getElementById('pk-done').textContent=acted;
   document.getElementById('pk-pz').textContent=pz;
-  document.getElementById('pk-bar').style.width=(done.length/picks.length*100)+'%';
+  document.getElementById('pk-bar').style.width=(acted/picks.length*100)+'%';
+  const mi=document.getElementById('pk-missing');
+  if(mi){ if(missing>0){mi.textContent=' · '+missing+' mancanti';mi.style.display='';} else {mi.style.display='none';} }
   const btn=document.getElementById('confirmBtn');
-  btn.classList.toggle('ready', done.length===picks.length);
+  btn.classList.toggle('ready', acted===picks.length);
 }
-function togglePick(el){el.classList.toggle('done');recalcPick();}
+function setPqty(p){
+  const q=+p.dataset.qty, el=p.querySelector('.pqty');
+  if(p.classList.contains('partial')){ el.classList.add('part'); el.innerHTML=(+p.dataset.picked)+'<small>/ '+q+' pz</small>'; }
+  else { el.classList.remove('part'); el.innerHTML=q+'<small>pz</small>'; }
+}
+function removeShort(p){ const sh=p.querySelector('.pshort'); if(sh)sh.remove(); }
+function clearPartial(p){ p.classList.remove('partial','editing'); delete p.dataset.picked; setPqty(p); removeShort(p); }
+function togglePick(el,ev){
+  if(ev && ev.target.closest('.pstep,.pick-parz,.pick-info')) return;
+  if(el.classList.contains('editing')) return;
+  if(el.classList.contains('partial')){ clearPartial(el); recalcPick(); return; }
+  el.classList.toggle('done'); recalcPick();
+}
+function openPartial(p){
+  p.classList.remove('done');
+  p.classList.add('partial','editing');
+  const q=+p.dataset.qty;
+  if(p.dataset.picked===undefined) p.dataset.picked=Math.max(0,q-Math.max(1,Math.round(q*0.35)));
+  let step=p.querySelector('.pstep');
+  if(!step){
+    step=document.createElement('div'); step.className='pstep';
+    step.innerHTML='<div class="psl">Prelevati · mancanza a magazzino</div><div class="psrow"><button class="psb" data-d="-5" type="button">−</button><span class="psv"></span><span class="psmax"></span><button class="psb" data-d="5" type="button">+</button><button class="psc" type="button">Conferma parziale</button><button class="psx" type="button">Annulla</button></div>';
+    p.appendChild(step);
+    step.querySelectorAll('.psb').forEach(b=>b.onclick=function(ev){ev.stopPropagation();stepPartial(p,+b.dataset.d);});
+    step.querySelector('.psc').onclick=function(ev){ev.stopPropagation();confirmPartial(p);};
+    step.querySelector('.psx').onclick=function(ev){ev.stopPropagation();cancelPartial(p);};
+  }
+  updateStepper(p);
+}
+function updateStepper(p){
+  const step=p.querySelector('.pstep'); if(!step)return;
+  step.querySelector('.psv').textContent=+p.dataset.picked;
+  step.querySelector('.psmax').textContent='/ '+p.dataset.qty+' pz';
+}
+function stepPartial(p,d){
+  const q=+p.dataset.qty; let cur=Math.max(0,Math.min(q,(+p.dataset.picked)+d));
+  p.dataset.picked=cur; updateStepper(p);
+}
+function confirmPartial(p){
+  const q=+p.dataset.qty, got=+p.dataset.picked, name=p.querySelector('.pname').textContent;
+  p.classList.remove('editing');
+  if(got>=q){ delete p.dataset.picked; p.classList.remove('partial'); p.classList.add('done'); setPqty(p); removeShort(p); recalcPick(); toast('ok','Riga completa',name+' · quantità piena confermata.'); return; }
+  p.classList.add('partial'); setPqty(p);
+  const miss=q-got;
+  let sh=p.querySelector('.pshort'); if(!sh){sh=document.createElement('div');sh.className='pshort';p.querySelector('.pinfo').appendChild(sh);}
+  sh.textContent='mancano '+miss+' pz · segnalato a magazzino';
+  recalcPick();
+  toast('warn','Prelievo parziale registrato',name+': '+got+'/'+q+' pz prelevati · '+miss+' mancanti inviati alla Cabina di Regia (bozza riordino pronta).');
+}
+function cancelPartial(p){
+  p.classList.remove('editing');
+  if(!p.querySelector('.pshort')){ p.classList.remove('partial'); delete p.dataset.picked; setPqty(p); }
+  recalcPick();
+}
 function simScan(){
-  const next=[...document.querySelectorAll('#plist .pick')].find(p=>!p.classList.contains('done'));
+  const next=[...document.querySelectorAll('#plist .pick')].find(p=>!p.classList.contains('done')&&!p.classList.contains('partial'));
   if(next){next.classList.add('done');recalcPick();
     const name=next.querySelector('.pname').textContent;
-    toast('ok','Codice scansionato',name+' · quantità confermata e tracciata.');
-  } else toast('info','Lista completa','Tutte le righe sono già state prelevate.');
+    toast('ok','Codice scansionato',name+' · quantità piena confermata e tracciata.');
+  } else toast('info','Lista completa','Tutte le righe sono già state gestite (prelevate o segnalate parziali).');
 }
 function confirmPick(){
-  toast('ok','Spedizione SP-2284 confermata','Prelievo chiuso · dato di tracciabilità inviato in tempo reale alla Cabina di Regia e alla BI.');
+  const picks=[...document.querySelectorAll('#plist .pick')];
+  let partRows=0,missing=0;
+  picks.forEach(p=>{ if(p.classList.contains('partial')){partRows++;missing+=(+p.dataset.qty-+(p.dataset.picked||0));} });
+  if(partRows) toast('warn','SP-2284 chiusa con riserva',partRows+' riga/e parziale/i · '+missing+' pz mancanti segnalati alla Cabina di Regia: bozza riordino fornitore pronta per Aldo Bruno.');
+  else toast('ok','Spedizione SP-2284 confermata','Prelievo chiuso · dato di tracciabilità inviato in tempo reale alla Cabina di Regia e alla BI.');
   setTimeout(()=>{
-    document.querySelectorAll('#plist .pick').forEach(p=>p.classList.remove('done'));recalcPick();
-  },2600);
+    picks.forEach(p=>{p.classList.remove('done','partial','editing');delete p.dataset.picked;setPqty(p);removeShort(p);});recalcPick();
+  },2800);
 }
 
 /* ===== Soluzioni / azioni agente ===== */
@@ -1780,12 +1944,210 @@ function wireDrills(){
   document.querySelectorAll('#screen-bi .tbl tbody tr').forEach(el=>{ el.classList.add('cl'); el.addEventListener('click',()=>drillCliente(el.querySelector('td').textContent.trim())); });
   document.querySelectorAll('#plist .pick').forEach(p=>{
     const code=p.querySelector('.pcode span').textContent.trim();
+    const pz=document.createElement('button'); pz.className='pick-parz'; pz.type='button'; pz.title='Prelievo parziale (mancanza a magazzino)';
+    pz.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 13h16v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" fill="currentColor" stroke="none"/></svg>';
+    pz.onclick=function(ev){ ev.stopPropagation(); openPartial(p); };
+    p.appendChild(pz);
     const b=document.createElement('button'); b.className='pick-info'; b.type='button'; b.textContent='i';
     b.onclick=function(ev){ ev.stopPropagation(); openDrill('item:'+code); };
     p.appendChild(b);
   });
 }
 document.addEventListener('click',function(e){ const t=e.target.closest('[data-drill]'); if(t){ openDrill(t.getAttribute('data-drill')); } });
+/* ============================================================
+   VoxBI — BI conversazionale (cubo OLAP sintetico + analyzer)
+   ============================================================ */
+const OLAP_FAM=[
+  {name:'Valvole anti-riflusso',margin:41,w:6,price:12,ach:0.82},
+  {name:'Griglie di aerazione',margin:38,w:11,price:4,ach:1.06},
+  {name:'Raccordi PVC',margin:34,w:24,price:3.5,ach:0.98},
+  {name:'Raccordi PP',margin:29,w:16,price:4,ach:0.92},
+  {name:'Sifoni',margin:26,w:14,price:5,ach:1.11},
+  {name:'Drenaggio suolo',margin:22,w:13,price:8,ach:0.88},
+  {name:'Cassette WC',margin:19,w:16,price:18,ach:1.03}
+];
+const OLAP_CLI=[
+  {name:'Idrotermica Salento',area:'Italia',regione:'Puglia',w:412,mod:2,scad:2.1},
+  {name:'Edil Murge',area:'Italia',regione:'Puglia',w:318,mod:0,scad:6.2},
+  {name:'Termoidraulica Jonica',area:'Italia',regione:'Calabria',w:256,mod:-1,scad:5.1},
+  {name:'Costruzioni Adriatica',area:'Italia',regione:'Puglia',w:198,mod:-4,scad:8.5},
+  {name:'Edilsud Costruzioni',area:'Italia',regione:'Puglia',w:174,mod:-18,scad:12.3},
+  {name:'Edil Murge Sud',area:'Italia',regione:'Puglia',w:150,mod:1,scad:1.8},
+  {name:'Idraulica Pugliese',area:'Italia',regione:'Puglia',w:128,mod:0,scad:4.0},
+  {name:'BTP Méditerranée',area:'Export',regione:'Francia',w:276,mod:3,scad:0},
+  {name:'Hellas Hydro',area:'Export',regione:'Grecia',w:219,mod:2,scad:3.4},
+  {name:'Iberia Drenajes',area:'Export',regione:'Spagna',w:161,mod:1,scad:2.4},
+  {name:'Balkan Bau',area:'Export',regione:'Croazia',w:115,mod:0,scad:2.0}
+];
+const OLAP_MESI=[{name:'Gen',f:0.90},{name:'Feb',f:0.92},{name:'Mar',f:1.00},{name:'Apr',f:1.05},{name:'Mag',f:1.12},{name:'Giu',f:1.18}];
+function _rng(seed){let s=seed%2147483647;if(s<=0)s+=2147483646;return ()=>(s=s*16807%2147483647)/2147483647;}
+const FACTS=(function(){
+  const rnd=_rng(20260620);const raw=[];
+  OLAP_CLI.forEach(c=>OLAP_FAM.forEach(f=>OLAP_MESI.forEach((m,mi)=>{
+    const noise=0.7+rnd()*0.6;
+    raw.push({cliente:c.name,area:c.area,regione:c.regione,famiglia:f.name,mese:m.name,mi,_w:c.w*f.w*m.f*noise,margin:f.margin+c.mod,price:f.price,ach:f.ach});
+  })));
+  const tot=raw.reduce((a,r)=>a+r._w,0);const scale=4500000/tot;
+  const facts=raw.map(r=>{const fatturato=r._w*scale;const ach=r.ach*(1+(r.mi-2.5)*0.012);const budget=fatturato/ach;
+    return {cliente:r.cliente,area:r.area,regione:r.regione,famiglia:r.famiglia,mese:r.mese,trimestre:['Gen','Feb','Mar'].includes(r.mese)?'T1':'T2',fatturato,budget,delta:fatturato-budget,margine:fatturato*(r.margin/100),qta:Math.round(fatturato/r.price),scaduto:0};});
+  OLAP_CLI.forEach(c=>{if(!c.scad)return;const recs=facts.filter(r=>r.cliente===c.name&&r.mese==='Giu').sort((a,b)=>b.fatturato-a.fatturato);if(recs[0])recs[0].scaduto=c.scad*1000;});
+  return facts;
+})();
+const MEASURES={
+  fatturato:{label:'Fatturato',kind:'eur',field:'fatturato'},
+  budget:{label:'Budget',kind:'eur',field:'budget'},
+  delta:{label:'Δ vs budget',kind:'eur',field:'delta'},
+  achiev:{label:'% su budget',kind:'pct',num:'fatturato',den:'budget'},
+  margine:{label:'Margine €',kind:'eur',field:'margine'},
+  marginePct:{label:'Margine %',kind:'pct',num:'margine',den:'fatturato'},
+  qta:{label:'Quantità',kind:'num',field:'qta'},
+  scaduto:{label:'Scaduto',kind:'eur',field:'scaduto'}
+};
+const BI_FIELDS={
+  fatturato:{label:'Fatturato'},budget:{label:'Budget'},delta:{label:'Δ vs budget'},achiev:{label:'% su budget'},
+  margine:{label:'Margine €'},marginePct:{label:'Margine %'},qta:{label:'Quantità'},scaduto:{label:'Scaduto'},
+  area:{label:'Area'},regione:{label:'Regione'},cliente:{label:'Cliente'},famiglia:{label:'Famiglia'},trimestre:{label:'Trimestre'},mese:{label:'Mese'}
+};
+function olapAgg(records,mKey){const M=MEASURES[mKey];if(M.kind==='pct'){let n=0,d=0;records.forEach(r=>{n+=r[M.num];d+=r[M.den];});return d?(n/d*100):0;}let s=0;records.forEach(r=>s+=r[M.field]);return s;}
+function olapFmt(v,mKey){const M=MEASURES[mKey];if(M.kind==='pct')return v.toFixed(1).replace('.',',')+'%';if(M.kind==='num')return Math.round(v).toLocaleString('it-IT');const sign=v<0?'−':'';const a=Math.abs(v);if(a>=1e6)return sign+'€ '+(a/1e6).toFixed(2).replace('.',',')+'M';if(a>=1e3)return sign+'€ '+Math.round(a/1e3).toLocaleString('it-IT')+'k';return sign+'€ '+Math.round(a).toLocaleString('it-IT');}
+function olapDistinct(records,dim){if(dim==='mese')return OLAP_MESI.map(m=>m.name).filter(v=>records.some(r=>r.mese===v));if(dim==='area')return ['Italia','Export'].filter(v=>records.some(r=>r.area===v));return [...new Set(records.map(r=>r[dim]))];}
+function olapBarColor(mKey,v){if(mKey==='marginePct')return v>=30?'#25c46b':(v>=22?'#f5b301':'#e1231a');if(mKey==='achiev')return v>=100?'#25c46b':(v>=90?'#f5b301':'#e1231a');if(mKey==='delta')return v>=0?'#25c46b':'#e1231a';if(mKey==='scaduto')return '#e1231a';return '#5468d6';}
+/* chart renderers — tema dark, offline */
+function chLine(rows,mKey,rows2,mKey2){
+  const all=rows.map(r=>r.val).concat(rows2?rows2.map(r=>r.val):[]);
+  const max=Math.max(1,...all.map(Math.abs)),min=Math.min(0,...all);
+  const W=320,H=120,pad=10,base=H-20,n=rows.length,dx=(W-2*pad)/(n-1||1);
+  const x=i=>pad+i*dx,y=v=>base-((v-min)/((max-min)||1))*(base-10);
+  const line=(rs,col,fill)=>{const pts=rs.map((r,i)=>x(i).toFixed(1)+','+y(r.val).toFixed(1)).join(' ');const area=fill?'<polyline points="'+pad+','+base+' '+pts+' '+(W-pad).toFixed(1)+','+base+'" fill="rgba(84,104,214,.16)" stroke="none"/>':'';const dots=rs.map((r,i)=>'<circle cx="'+x(i).toFixed(1)+'" cy="'+y(r.val).toFixed(1)+'" r="2.6" fill="'+col+'"/>').join('');return area+'<polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>'+dots;};
+  const labels=rows.map((r,i)=>'<text x="'+x(i).toFixed(1)+'" y="'+(H-4)+'" text-anchor="middle" font-size="8" fill="#7c87b8" font-family="JetBrains Mono">'+r.label+'</text>').join('');
+  const second=rows2?line(rows2,'#f5b301',false):'';
+  return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:130px;display:block;">'+line(rows,'#5468d6',true)+second+labels+'</svg>';
+}
+function chDonut(rows,mKey){
+  const tot=rows.reduce((a,r)=>a+Math.abs(r.val),0)||1;const cols=['#5468d6','#7d8ce0','#3a4aa0','#9aa9ff','#c3ccf5'];let acc=0;
+  const segs=rows.map((r,i)=>{const s=acc/tot*100;acc+=Math.abs(r.val);return cols[i%cols.length]+' '+s+'% '+(acc/tot*100)+'%';}).join(',');
+  const legend=rows.map((r,i)=>'<div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;"><span style="width:10px;height:10px;border-radius:3px;background:'+cols[i%cols.length]+';flex:none;"></span><span style="font-size:12px;color:#c9cee0;flex:1;">'+r.label+'</span><span style="font-family:var(--mono);font-size:11.5px;font-weight:700;color:#fff;">'+Math.round(Math.abs(r.val)/tot*100)+'%</span></div>').join('');
+  return '<div style="display:flex;align-items:center;gap:16px;"><div style="width:98px;height:98px;border-radius:50%;flex:none;background:conic-gradient('+segs+');display:flex;align-items:center;justify-content:center;"><div style="width:58px;height:58px;border-radius:50%;background:#141a3a;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:#9aa9ff;text-align:center;">'+olapFmt(tot,mKey)+'</div></div><div style="flex:1;min-width:120px;">'+legend+'</div></div>';
+}
+function chColumns(rows,mKey){
+  const data=rows.filter(r=>Math.abs(r.val)>0);if(!data.length)return '<div style="font-size:12px;color:#7c87b8;">Nessun dato.</div>';
+  const max=Math.max(1,...data.map(r=>Math.abs(r.val)));
+  return '<div style="display:flex;align-items:flex-end;gap:7px;height:130px;">'+data.map(r=>'<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px;height:100%;"><div style="font-family:var(--mono);font-size:9px;font-weight:700;color:#e8e9f2;">'+olapFmt(r.val,mKey)+'</div><div style="width:100%;height:'+Math.round(Math.abs(r.val)/max*92)+'%;min-height:3px;background:'+olapBarColor(mKey,r.val)+';border-radius:4px 4px 0 0;"></div><div style="font-size:8px;color:#7c87b8;text-align:center;line-height:1.1;height:20px;overflow:hidden;">'+r.label+'</div></div>').join('')+'</div>';
+}
+function chBars(rows,mKey,labelW){
+  const data=rows.filter(r=>Math.abs(r.val)>0);if(!data.length)return '<div style="font-size:12px;color:#7c87b8;">Nessun dato per la selezione corrente.</div>';
+  const mx=Math.max(1,...data.map(r=>Math.abs(r.val)));
+  return '<div style="display:flex;flex-direction:column;gap:9px;">'+data.map(r=>'<div style="display:flex;align-items:center;gap:10px;"><div style="width:'+(labelW||120)+'px;flex:none;font-size:11.5px;color:#c9cee0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+r.label+'</div><div style="flex:1;height:16px;background:rgba(255,255,255,.07);border-radius:5px;overflow:hidden;"><div style="width:'+Math.round(Math.abs(r.val)/mx*100)+'%;height:100%;background:'+olapBarColor(mKey,r.val)+';border-radius:5px;"></div></div><div style="width:80px;flex:none;font-family:var(--mono);font-size:11.5px;font-weight:700;color:#fff;text-align:right;">'+olapFmt(r.val,mKey)+'</div></div>').join('')+'</div>';
+}
+function biNarrative(facts,rowLevels,colLevels,meas){
+  const m0=meas[0];const fq=v=>olapFmt(v,m0);const grand=olapAgg(facts,m0);const bullets=[];
+  if(rowLevels.length){
+    const lvl=rowLevels[0];
+    const groups=olapDistinct(facts,lvl).map(v=>({v,val:olapAgg(facts.filter(r=>r[lvl]===v),m0)})).sort((a,b)=>Math.abs(b.val)-Math.abs(a.val));
+    const top=groups[0],bottom=groups[groups.length-1];const share=grand?Math.round(Math.abs(top.val)/Math.abs(grand)*100):0;
+    if(top)bullets.push('In testa <strong>'+top.v+'</strong> con <strong>'+fq(top.val)+'</strong>'+(MEASURES[m0].kind==='eur'?' — il '+share+'% del totale '+fq(grand):'')+'.');
+    if(bottom&&groups.length>1)bullets.push('In coda <strong>'+bottom.v+'</strong> ('+fq(bottom.val)+'): è qui che cerco i margini di recupero.');
+  } else {bullets.push('Valore complessivo sulla selezione: <strong>'+fq(grand)+'</strong>.');}
+  if(['mese','trimestre'].some(l=>colLevels.includes(l)||rowLevels.includes(l))){
+    const giu=olapAgg(facts.filter(r=>r.mese==='Giu'),'fatturato'),gen=olapAgg(facts.filter(r=>r.mese==='Gen'),'fatturato');
+    if(gen)bullets.push("Sull'asse temporale il fatturato cresce del <strong>"+Math.round((giu/gen-1)*100)+'%</strong> da gennaio a giugno: trend in accelerazione.');
+  }
+  if(rowLevels.includes('famiglia')||colLevels.includes('famiglia')||meas.includes('marginePct'))bullets.push('<strong>Valvole anti-riflusso</strong>: marginalità più alta (41%) ma rotazione lenta — candidate a una promo mirata per liberare ~€ 30k.');
+  if(rowLevels.includes('cliente')||colLevels.includes('cliente')||meas.includes('scaduto'))bullets.push('Anomalia su <strong>Edilsud Costruzioni</strong>: margine sotto media e scaduto elevato — la stessa che la cabina ha già intercettato.');
+  return {bullets:bullets.slice(0,4),grand};
+}
+function voxAnalyze(query){
+  const s=(query||'').toLowerCase();const has=(...ks)=>ks.some(k=>s.includes(k));
+  let measure='fatturato';
+  if(has('marginalit')||(has('margin')&&(has('%')||has('percentu'))))measure='marginePct';
+  else if(has('margin','reddit'))measure='margine';
+  else if(has('scadut','insolut','credit'))measure='scaduto';
+  else if(has('budget','target','obiettiv','raggiungiment'))measure='achiev';
+  else if(has('quantit','pezzi','volumi',' pz'))measure='qta';
+  let dim;
+  if(has('per client','client'))dim='cliente';
+  else if(has('per region','region'))dim='regione';
+  else if(has('per area','per zona'))dim='area';
+  else if(has('per famiglia','per prodott','per linea','famiglia','prodott','linea','articol'))dim='famiglia';
+  else if(has('andamento','trend','mensile','mese','tempo','crescita','evoluzione'))dim='mese';
+  else if(has('area','geografi'))dim='area';
+  else dim='famiglia';
+  if(has('per mese','per trimestr'))dim='mese';
+  if(has('famiglia','prodott')&&has('trimestr'))dim='famiglia';
+  const numM=s.match(/\b(\d{1,2})\b/);const limit=numM?Math.max(1,Math.min(12,+numM[1])):8;
+  let facts=FACTS;const fl=[];
+  const bothAreas=has('italia')&&has('export','estero');
+  if(bothAreas)dim='area';
+  else{if(has('italia')){facts=facts.filter(r=>r.area==='Italia');fl.push('Italia');}if(has('export','estero')){facts=facts.filter(r=>r.area==='Export');fl.push('Export');}}
+  [['valvol','Valvole anti-riflusso'],['griglie','Griglie di aerazione'],['raccordi pp','Raccordi PP'],['raccordi pvc','Raccordi PVC'],['raccordi','Raccordi PVC'],['sifon','Sifoni'],['drenaggio','Drenaggio suolo'],['cassette','Cassette WC']].forEach(([k,nm])=>{if(s.includes(k)&&!fl.includes(nm)){facts=facts.filter(r=>r.famiglia===nm);fl.push(nm);}});
+  OLAP_CLI.forEach(c=>{const k=c.name.toLowerCase().split(' ')[0];if(k.length>3&&s.includes(k)){facts=facts.filter(r=>r.cliente===c.name);if(!fl.includes(c.name))fl.push(c.name);}});
+  const MESI_FULL={gennaio:'Gen',febbraio:'Feb',marzo:'Mar',aprile:'Apr',maggio:'Mag',giugno:'Giu'};
+  Object.keys(MESI_FULL).forEach(mn=>{if(s.includes(mn)){facts=facts.filter(r=>r.mese===MESI_FULL[mn]);fl.push(mn[0].toUpperCase()+mn.slice(1));}});
+  const wantTime=has('andamento','trend','mensile','mese','tempo','crescita','evoluzione','trimestre');
+  const wantBudget=has('budget','target','obiettiv','raggiungiment');
+  const monthsFat=OLAP_MESI.map(m=>({label:m.name,val:olapAgg(facts.filter(r=>r.mese===m.name),'fatturato')}));
+  const monthsBud=OLAP_MESI.map(m=>({label:m.name,val:olapAgg(facts.filter(r=>r.mese===m.name),'budget')}));
+  const monthsM=OLAP_MESI.map(m=>({label:m.name,val:olapAgg(facts.filter(r=>r.mese===m.name),measure)}));
+  const achFam=OLAP_FAM.map(f=>({label:f.name,val:olapAgg(facts.filter(r=>r.famiglia===f.name),'achiev')})).sort((a,b)=>b.val-a.val);
+  const rank=olapDistinct(facts,dim).map(v=>({label:v,val:olapAgg(facts.filter(r=>r[dim]===v),measure)})).sort((a,b)=>Math.abs(b.val)-Math.abs(a.val)).slice(0,limit);
+  const wantCompare=has('trimestr')&&has('famiglia','prodott');
+  const cmpTable=()=>{const trims=['T1','T2'];const thS="padding:7px 10px;font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:#7c87b8;border-bottom:1px solid var(--line);";
+    const cell=ff=>{const fat=olapAgg(ff,'fatturato'),bud=olapAgg(ff,'budget'),ach=bud?fat/bud*100:0;return '<td style="padding:8px 10px;text-align:right;border-bottom:1px solid var(--line-soft);font-family:var(--mono);font-size:11.5px;color:#eef0fa;">'+olapFmt(fat,'fatturato')+'<div style="font-size:9px;font-weight:700;color:'+olapBarColor('achiev',ach)+';">'+ach.toFixed(0)+'% budget</div></td>';};
+    const rws=OLAP_FAM.map(f=>'<tr><td style="padding:8px 10px;border-bottom:1px solid var(--line-soft);font-size:12px;font-weight:500;color:#eef0fa;">'+f.name+'</td>'+trims.map(t=>cell(facts.filter(r=>r.famiglia===f.name&&r.trimestre===t))).join('')+'</tr>').join('');
+    return '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr><th style="'+thS+'text-align:left;">Famiglia</th><th style="'+thS+'text-align:right;">T1 (gen–mar)</th><th style="'+thS+'text-align:right;">T2 (apr–giu)</th></tr></thead><tbody>'+rws+'</tbody></table></div>';};
+  const charts=[];
+  const dimLabel=(dim==='mese'||dim==='area')?'':BI_FIELDS[dim].label.toLowerCase();
+  const entVals=mk=>rank.map(x=>({label:x.label,val:olapAgg(facts.filter(r=>r[dim]===x.label),mk)}));
+  const lineBudget={t:'Fatturato vs Budget · mese',s:'consuntivo vs budget',html:chLine(monthsFat,'fatturato',monthsBud,'budget')};
+  if(wantCompare)charts.push({t:'Famiglia × trimestre · consuntivo vs budget',s:'% = raggiungimento del target',html:cmpTable()});
+  if(dim==='mese'){
+    charts.push({t:MEASURES[measure].label+' per mese',s:'andamento nel tempo',html:chLine(monthsM,measure,(measure==='fatturato'?monthsBud:null),'budget')});
+    if(wantBudget)charts.push({t:'% su budget per famiglia',s:'raggiungimento target',html:chColumns(achFam,'achiev')});
+    else charts.push({t:MEASURES[measure].label+' per famiglia',s:'composizione per linea',html:chBars(OLAP_FAM.map(f=>({label:f.name,val:olapAgg(facts.filter(r=>r.famiglia===f.name),measure)})).sort((a,b)=>Math.abs(b.val)-Math.abs(a.val)),measure,150)});
+  } else if(dim==='area'){
+    charts.push({t:'Italia vs Export',s:'quota di '+MEASURES[measure].label.toLowerCase(),html:(measure==='marginePct'||measure==='achiev')?chBars(rank,measure,70):chDonut(rank,measure)});
+    charts.push(lineBudget);
+  } else {
+    charts.push({t:'Top '+rank.length+' · '+MEASURES[measure].label+' per '+dimLabel,s:'classifica',html:chBars(rank,measure,150)});
+    charts.push({t:'Quota sul fatturato · top '+rank.length+' '+dimLabel,s:'peso relativo',html:chDonut(entVals('fatturato'),'fatturato')});
+    if(wantBudget&&measure!=='achiev')charts.push({t:'% su budget · top '+rank.length+' '+dimLabel,s:'raggiungimento target',html:chColumns(entVals('achiev'),'achiev')});
+    else if(measure!=='marginePct'&&measure!=='margine')charts.push({t:'Margine % · top '+rank.length+' '+dimLabel,s:'redditività',html:chColumns(entVals('marginePct'),'marginePct')});
+    else charts.push({t:'Fatturato · top '+rank.length+' '+dimLabel,s:'volume',html:chColumns(entVals('fatturato'),'fatturato')});
+    if(wantTime||wantBudget)charts.push(lineBudget);
+  }
+  if(charts.length<2)charts.push(lineBudget);
+  const charts4=charts.slice(0,4);
+  const kFat=olapAgg(facts,'fatturato'),kMar=olapAgg(facts,'marginePct'),kScad=olapAgg(facts,'scaduto'),kAch=olapAgg(facts,'achiev');
+  const kpis=[{v:olapFmt(kFat,'fatturato'),l:'Fatturato',c:'#eef0fa'},{v:olapFmt(kMar,'marginePct'),l:'Margine medio',c:'#25c46b'}];
+  if(wantBudget)kpis.push({v:olapFmt(kAch,'achiev'),l:'% su budget',c:olapBarColor('achiev',kAch)});
+  else kpis.push({v:olapFmt(kScad,'scaduto'),l:'Scaduto',c:'#ff5b50'});
+  const nar=biNarrative(facts,dim==='mese'?['mese']:[dim],dim==='mese'?[]:['mese'],[measure]);
+  const topTxt=(numM&&dim!=='mese'&&dim!=='area')?' · top '+limit:'';
+  const lead='Ho letto la richiesta come <strong>'+MEASURES[measure].label+'</strong> per <strong>'+BI_FIELDS[dim].label.toLowerCase()+'</strong>'+topTxt+(fl.length?' · filtri: '+fl.join(', '):'')+'.';
+  const bullets=[lead].concat(nar.bullets);
+  const headline=(query||'').trim()?query.trim():'Panoramica vendite';
+  return {headline,subtitle:MEASURES[measure].label+' per '+BI_FIELDS[dim].label.toLowerCase()+topTxt+(fl.length?' · '+fl.join(', '):''),kpis,charts:charts4,bullets};
+}
+function renderVoxReport(query){
+  const r=voxAnalyze(query);
+  const kpiHtml=r.kpis.map(k=>'<div class="vox-kpi"><div class="kv" style="color:'+k.c+'">'+k.v+'</div><div class="kl">'+k.l+'</div></div>').join('');
+  const chartsHtml=r.charts.map(c=>'<div class="vox-chart"><div class="ct">'+c.t+'</div><div class="cs">'+c.s+'</div>'+c.html+'</div>').join('');
+  const bulletsHtml=r.bullets.map(b=>'<li>'+b+'</li>').join('');
+  const html='<div class="vox-report">'+
+    '<div class="vox-rhead"><div class="rh-l"><div class="vox-eyebrow">Richiesta interpretata</div><h2>«'+r.headline+'»</h2><div class="rh-sub">'+r.subtitle+'</div></div>'+
+    '<button class="btn soft" onclick="toast(\'ok\',\'Report VoxBI inviato\',\'Report «'+r.headline.replace(/'/g,"\\'").replace(/"/g,'&quot;')+'» condiviso in PDF con Gaetano e Barbara Carluccio.\')">Invia report</button>'+
+    '<button class="btn ghost" onclick="voxReset()">Nuova domanda</button></div>'+
+    '<div class="vox-kpis">'+kpiHtml+'</div>'+
+    '<div class="vox-narr"><span class="av">AI</span><ul>'+bulletsHtml+'</ul></div>'+
+    '<div class="vox-sech">Grafici generati in tempo reale</div>'+
+    '<div class="vox-charts">'+chartsHtml+'</div>'+
+  '</div>';
+  document.getElementById('voxResults').innerHTML=html;
+}
+function voxSubmit(){const q=(document.getElementById('voxInput').value||'').trim();if(!q){toast('info','Scrivi una domanda','Es. «Top 5 clienti per marginalità» o «Andamento vendite vs budget».');return;}renderVoxReport(q);}
+function voxAsk(q){document.getElementById('voxInput').value=q;renderVoxReport(q);}
+function voxReset(){document.getElementById('voxInput').value='';document.getElementById('voxResults').innerHTML='<div class="vox-empty">Scrivi una richiesta o tocca un esempio: genero <b>narrazione e grafici in tempo reale</b>, scelti in base alla domanda. Tutto offline, su dati sintetici.</div>';document.getElementById('voxInput').focus();}
+
 document.addEventListener('keydown',function(e){ if(e.key==='Escape' && document.getElementById('screen-detail').classList.contains('active')) back(); });
 wireDrills();
 
