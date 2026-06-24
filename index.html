@@ -683,6 +683,8 @@ body::after{ /* grana */
 .stage.crit .st-dot{background:var(--red)} .stage.warn .st-dot{background:var(--warn)} .stage.ok .st-dot{background:var(--ok)}
 .pchev{flex:0 0 auto;align-self:center;color:var(--ink-3);display:flex}
 .pchev svg{width:16px;height:16px}
+.st-attn{font-size:9.5px;line-height:1.3;padding:6px 8px;border-radius:8px;font-weight:600;display:block}
+.st-attn.warn{background:var(--warn-bg);color:var(--warn)} .st-attn.crit{background:var(--crit-bg);color:var(--red-soft)} .st-attn.ok{background:rgba(37,196,107,.1);color:var(--ok)}
 @media(max-width:780px){.pipeline{flex-direction:column}.stage{min-width:0}.pchev{transform:rotate(90deg);margin:1px 0}}
 .fnode{fill:var(--panel-2);stroke:var(--line);stroke-width:1.5}
 .fnode.core{fill:url(#coreGrad);stroke:rgba(84,104,214,.6)}
@@ -710,6 +712,39 @@ body::after{ /* grana */
 .attn-card .ac-go{font-family:var(--mono);font-size:9.5px;color:var(--navy-bright);margin-top:9px;display:flex;align-items:center;gap:5px}
 @media(max-width:1100px){.flow-kpis{grid-template-columns:repeat(2,1fr)}.attn-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.flow-kpis,.attn-grid{grid-template-columns:1fr}}
+/* banner stato globale */
+.health{display:flex;align-items:center;gap:13px;border-radius:var(--radius);padding:14px 18px;margin-bottom:16px;border:1px solid}
+.health.crit{background:rgba(225,35,26,.1);border-color:rgba(225,35,26,.4)}
+.health.warn{background:rgba(245,179,1,.1);border-color:rgba(245,179,1,.4)}
+.health.ok{background:rgba(37,196,107,.1);border-color:rgba(37,196,107,.4)}
+.health .hb-ic{flex:0 0 auto;display:flex}
+.health.crit .hb-ic{color:var(--red-soft)} .health.warn .hb-ic{color:var(--warn)} .health.ok .hb-ic{color:var(--ok)}
+.health .hb-tx{flex:1;font-size:13.5px;color:var(--ink-2)} .health .hb-tx b{color:var(--ink)}
+.hb-dots{display:flex;gap:5px} .hb-dots .hd{width:11px;height:11px;border-radius:50%}
+.hd.crit{background:var(--red)} .hd.warn{background:var(--warn)} .hd.ok{background:var(--ok)}
+/* chatbot assistente flussi */
+.flow-chat{margin-top:18px;background:radial-gradient(120% 130% at 0 0,rgba(84,104,214,.1),transparent 55%),var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.fc-head{display:flex;align-items:center;gap:11px;padding:14px 18px;border-bottom:1px solid var(--line-soft)}
+.fc-av{width:34px;height:34px;flex:0 0 34px;border-radius:9px;background:var(--navy-bright);display:grid;place-items:center}
+.fc-nm{font-family:var(--display);font-weight:700;font-size:14px}
+.fc-sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:var(--ink-3)}
+.fc-live{margin-left:auto;font-family:var(--mono);font-size:9.5px;color:var(--ok);display:flex;align-items:center;gap:6px}
+.fc-live i{width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.fc-msgs{padding:16px 18px;display:flex;flex-direction:column;gap:11px;max-height:360px;overflow-y:auto}
+.cmsg{max-width:80%;font-size:13px;line-height:1.5;padding:10px 13px;border-radius:13px}
+.cmsg.ag{align-self:flex-start;background:var(--panel-2);border:1px solid var(--line-soft);border-bottom-left-radius:4px;color:var(--ink-2)}
+.cmsg.me{align-self:flex-end;background:var(--navy-bright);color:#fff;border-bottom-right-radius:4px}
+.cmsg.ag b{color:var(--ink)} .cmsg.me b{color:#fff}
+.cmsg .cpill{display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:700;padding:1px 7px;border-radius:20px;margin:0 4px 2px 0}
+.cmsg .cpill.crit{background:var(--crit-bg);color:var(--red-soft)} .cmsg .cpill.warn{background:var(--warn-bg);color:var(--warn)} .cmsg .cpill.ok{background:var(--ok-bg);color:var(--ok)}
+.cmsg .cbtn{margin-top:10px;display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-weight:700;font-size:11.5px;background:var(--red);color:#fff;border:none;border-radius:8px;padding:7px 12px;cursor:pointer;transition:.15s}
+.cmsg .cbtn:hover{background:var(--red-soft)}
+.fc-chips{display:flex;gap:8px;flex-wrap:wrap;padding:2px 18px 12px}
+.fc-chip{appearance:none;cursor:pointer;border:1px solid rgba(84,104,214,.4);background:rgba(84,104,214,.12);color:#9bacff;font-family:var(--body);font-size:11.5px;font-weight:600;padding:6px 11px;border-radius:30px}
+.fc-chip:hover{border-color:var(--navy-bright);color:#fff}
+.fc-input{display:flex;gap:10px;padding:12px 18px 16px;border-top:1px solid var(--line-soft)}
+.fc-input input{flex:1;min-width:0;appearance:none;border:1px solid var(--line);background:rgba(8,12,36,.5);color:#fff;font-family:var(--body);font-size:13.5px;padding:11px 13px;border-radius:10px;outline:none}
+.fc-input input:focus{border-color:var(--navy-bright)} .fc-input input::placeholder{color:var(--ink-3)}
 
 /* ===== Cabina: flussi in riga + centro allarmi ===== */
 .flows-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
@@ -840,6 +875,7 @@ svg.line{width:100%;height:auto;display:block}
 .dtbl tfoot .tflbl{color:var(--ink-3);text-transform:uppercase;font-size:10.5px;letter-spacing:.06em}
 .dtbl tfoot .tfval{color:var(--ink);font-weight:700;font-size:14px}
 .d-note.crit{background:rgba(225,35,26,.09);border-color:rgba(225,35,26,.35)} .d-note.crit svg{color:var(--red-soft)}
+.d-note.warn{background:rgba(245,179,1,.1);border-color:rgba(245,179,1,.4)} .d-note.warn svg{color:var(--warn)}
 .d-mini{font-size:11px;color:var(--ink-3);margin-top:8px}
 
 .dpill{font-family:var(--mono);font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;text-transform:uppercase;letter-spacing:.03em}
@@ -982,6 +1018,11 @@ svg.line{width:100%;height:auto;display:block}
       <div class="clock"><b id="clock-t2">—</b><small>aggiornamento live</small></div>
     </header>
     <div class="content">
+      <div class="health crit" id="healthBanner">
+        <span class="hb-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span>
+        <div class="hb-tx"><b>Serve la tua attenzione</b> — 2 fasi critiche (Controllo Credito, Incassi) e 5 da gestire. 1 fase in linea.</div>
+        <div class="hb-dots"><span class="hd crit"></span><span class="hd warn"></span><span class="hd warn"></span><span class="hd warn"></span><span class="hd warn"></span><span class="hd ok"></span><span class="hd warn"></span><span class="hd crit"></span></div>
+      </div>
       <div class="flow-kpis">
         <div class="flow-kpi" onclick="goTo('olap')"><div class="kv">9.200</div><div class="kk">Record elaborati oggi</div><div class="kd">▲ +12% vs media</div></div>
         <div class="flow-kpi" onclick="goTo('home')"><div class="kv">4<span style="color:var(--ink-3)">/4</span></div><div class="kk">Flussi connessi attivi</div><div class="kd">● tutti online</div></div>
@@ -1052,31 +1093,17 @@ svg.line{width:100%;height:auto;display:block}
         </div>
       </div>
 
-      <div class="attn-h">Punti di attenzione · dove il flusso richiede una decisione</div>
-      <div class="attn-grid">
-        <div class="attn-card crit" onclick="goTo('home')">
-          <div class="ac-top"><span class="ac-src">Contabilità → Cabina</span><span class="ac-sev"></span></div>
-          <div class="ac-t">Credito oltre fido</div>
-          <div class="ac-d">2 clienti oltre fido e Edilsud in sforamento con il nuovo ordine da € 18.500.</div>
-          <div class="ac-go">Vai alla Cabina <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="flow-chat">
+        <div class="fc-head">
+          <span class="fc-av"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2a3 3 0 0 1 3 3v1h1a3 3 0 0 1 3 3v2a3 3 0 0 1-1 2 3 3 0 0 1 1 2v2a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-2a3 3 0 0 1 1-2 3 3 0 0 1-1-2V9a3 3 0 0 1 3-3h1V5a3 3 0 0 1 3-3z"/><circle cx="9.5" cy="12" r="1.1" fill="#fff"/><circle cx="14.5" cy="12" r="1.1" fill="#fff"/></svg></span>
+          <div><div class="fc-nm">Assistente Flussi</div><div class="fc-sub">chiedimi dei dati sotto · ti porto dove serve</div></div>
+          <span class="fc-live"><i></i>online</span>
         </div>
-        <div class="attn-card warn" onclick="goTo('picking')">
-          <div class="ac-top"><span class="ac-src">App Picking → Magazzino</span><span class="ac-sev"></span></div>
-          <div class="ac-t">Prelievo parziale</div>
-          <div class="ac-d">SP-2284: 9 pz di Raccordo PVC non disponibili → bozza di riordino da confermare.</div>
-          <div class="ac-go">Apri l'app di picking <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-        </div>
-        <div class="attn-card warn" onclick="goTo('home')">
-          <div class="ac-top"><span class="ac-src">MES → Produzione</span><span class="ac-sev"></span></div>
-          <div class="ac-t">Latenza linea estrusione 2</div>
-          <div class="ac-d">Tempo ciclo +8%: possibile principio di usura stampo, controllo proposto.</div>
-          <div class="ac-go">Vedi allarme <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-        </div>
-        <div class="attn-card info" onclick="goTo('bi')">
-          <div class="ac-top"><span class="ac-src">Gestionale → BI</span><span class="ac-sev"></span></div>
-          <div class="ac-t">Rotazione lenta ad alto margine</div>
-          <div class="ac-d">Valvole anti-riflusso: marginalità 41% ma € 78k fermi a magazzino.</div>
-          <div class="ac-go">Apri l'insight <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        <div class="fc-msgs" id="chatMsgs"></div>
+        <div class="fc-chips" id="chatChips"></div>
+        <div class="fc-input">
+          <input id="chatInput" type="text" autocomplete="off" placeholder="Es. «cosa non va oggi?» · «ordini bloccati» · «com'è lo scaduto?»" onkeydown="if(event.key==='Enter')chatSend()">
+          <button class="btn primary" onclick="chatSend()">Invia</button>
         </div>
       </div>
     </div>
@@ -2628,31 +2655,92 @@ const STAGES={
     cols:[{t:'Cliente'},{t:'Documento'},{t:'Importo',n:1},{t:'Scad. gg',n:1},{t:'Stato'}],
     rows:[{c:['Costruzioni Adriatica','FT-0991','€ 28.400','62'],st:['crit','Scaduto']},{c:['Gruppo Edile Brindisino','FT-1002','€ 19.700','38'],st:['crit','Scaduto']},{c:['Edilsud Costruzioni','FT-1010','€ 12.300','47'],st:['crit','Scaduto']},{c:['Edil Murge','FT-1039','€ 9.800','21'],st:['warn','Entro fido']},{c:['Idrotermica Salento','FT-1041','€ 4.180','—'],st:['ok','A scadere']}]}
 };
+const STAGE_ATTN={
+  ordini:{sev:'warn',t:'1 ordine bloccato dal credito'},
+  credito:{sev:'crit',t:'Edilsud oltre fido € 30.800/22.000'},
+  produzione:{sev:'warn',t:'Linea 2: tempo ciclo +8%'},
+  magazzino:{sev:'warn',t:'2 codici sotto scorta critica'},
+  picking:{sev:'warn',t:'SP-2284 parziale: 9 pz mancanti'},
+  spedizione:{sev:'ok',t:'Flusso regolare'},
+  fatture:{sev:'warn',t:'1 consegna non fatturata'},
+  incassi:{sev:'crit',t:'€ 86.400 scaduto · 2 oltre fido'}
+};
+const STAGE_LINKS={
+  ordini:[['Apri tutti gli ordini',"openDrill('commerciale')",1]],
+  credito:[['Apri il caso Edilsud',"goTo('agent')",1],['Scaduto & fidi',"openDrill('amministrazione')",0]],
+  produzione:[['Dettaglio allarme produzione',"openDrill('alarm_produzione')",1]],
+  magazzino:[['Apri magazzino',"openDrill('magazzino')",1]],
+  picking:[["Apri l'app di picking","goTo('picking')",1]],
+  spedizione:[['Vai alla Cabina di Regia',"goTo('home')",1]],
+  fatture:[['Apri amministrazione',"openDrill('amministrazione')",1]],
+  incassi:[['Apri amministrazione',"openDrill('amministrazione')",1],['Caso credito Edilsud',"goTo('agent')",0]]
+};
 function stIco(p){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+p+'</svg>';}
 function renderPipeline(){
   const host=document.getElementById('pipeline'); if(!host)return;
   const keys=Object.keys(STAGES);
   host.innerHTML=keys.map((k,i)=>{
-    const s=STAGES[k];
-    const card='<button class="stage '+s.sev+'" data-drill="stage:'+k+'"><span class="st-dot"></span><span class="st-ic">'+stIco(STAGE_ICON[k])+'</span><span class="st-n">'+s.name+'</span><span class="st-c">'+s.count+'</span><span class="st-l">'+s.clabel+'</span><span class="st-go">ultime 5 →</span></button>';
+    const s=STAGES[k];const at=STAGE_ATTN[k];
+    const attn=at?'<span class="st-attn '+at.sev+'">'+(at.sev==='ok'?'✓ ':'▲ ')+at.t+'</span>':'';
+    const card='<button class="stage '+s.sev+'" data-drill="stage:'+k+'"><span class="st-dot"></span><span class="st-ic">'+stIco(STAGE_ICON[k])+'</span><span class="st-n">'+s.name+'</span><span class="st-c">'+s.count+'</span><span class="st-l">'+s.clabel+'</span>'+attn+'<span class="st-go">vedi dettaglio →</span></button>';
     const chev=i<keys.length-1?'<span class="pchev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg></span>':'';
     return card+chev;
   }).join('');
 }
 function drillStage(key){
   const s=STAGES[key]; if(!s)return;
+  const at=STAGE_ATTN[key];
+  const acts=(STAGE_LINKS[key]||[]).map(l=>'<button class="btn '+(l[2]?'primary':'soft')+'" onclick="'+l[1]+'">'+l[0]+' →</button>').join('');
   const thead=s.cols.map(c=>'<th class="'+(c.n?'n':'')+'">'+c.t+'</th>').join('');
   const tb=s.rows.map(r=>'<tr>'+r.c.map((cell,i)=>'<td class="'+(s.cols[i].n?'n':'')+'">'+cell+'</td>').join('')+'<td>'+dpill(r.st[0],r.st[1])+'</td></tr>').join('');
+  const banner=at&&at.sev!=='ok'?'<div class="d-note '+(at.sev==='crit'?'crit':'warn')+'" style="margin-top:0;margin-bottom:18px">'+NOTE_SVG+'<span><b>Punto di attenzione:</b> '+at.t+' — '+s.note+'</span></div>':'';
   const html='<div class="detail-wrap">'+
-    dhead('Flusso dati · '+s.name,s.name,'Ultime 5 righe lette dal Gestionale · modulo '+s.module+' · sync '+s.lat)+
+    dhead('Flusso dati · '+s.name,s.name,'Ultime 5 righe lette dal Gestionale · modulo '+s.module+' · sync '+s.lat,acts)+
     sum3(s.kpis)+
+    banner+
     '<p class="d-lead">'+s.lead+'</p>'+
     panel('Ultime 5 righe dal gestionale','<table class="dtbl"><thead><tr>'+thead+'</tr></thead><tbody>'+tb+'</tbody></table><p class="d-mini">Sola lettura · sorgente: Gestionale · modulo '+s.module+'</p>')+
-    '<div class="d-note">'+NOTE_SVG+'<span>'+s.note+'</span></div>'+
+    (at&&at.sev==='ok'?'<div class="d-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span>'+s.note+'</span></div>':'')+
   '</div>';
   detail(s.name,html);
 }
 renderPipeline();
+
+/* ============================================================
+   Assistente Flussi — chatbot che guida nei dati sottostanti
+   ============================================================ */
+const CHAT_INTENTS=[
+  {kw:['non va','cosa non','riepilog','priorit','tutto bene','come va','situazione'],reply:'Oggi <b>2 fasi critiche</b> e 5 da gestire. I due fuochi: <span class="cpill crit">CRITICO</span><b>Controllo Credito</b> (Edilsud oltre fido) e <span class="cpill crit">CRITICO</span><b>Incassi</b> (€ 86.400 scaduto). Partirei dal credito.',act:['Apri Controllo Credito',"openDrill('stage:credito')"]},
+  {kw:['blocc','ordine','ordini'],pill:['crit','BLOCCATO'],reply:"C'è <b>1 ordine bloccato</b>: OC-2284 <b>Edilsud</b> da € 18.500, fermato dal credito (esposizione € 30.800 vs fido € 22.000).",act:['Apri il caso Edilsud',"goTo('agent')"]},
+  {kw:['scadut','incass','credit','fido','riscoss'],pill:['crit','INCASSI'],reply:'Lo <b>scaduto è € 86.400</b> su 3 clienti edili, <b>2 oltre fido</b> (Costruzioni Adriatica, Gruppo Edile Brindisino). Edilsud è il caso aperto.',act:['Apri Incassi',"openDrill('stage:incassi')"]},
+  {kw:['magazz','scorta','riordin','giacenz'],pill:['warn','MAGAZZINO'],reply:'<b>7 codici sotto scorta</b>, 2 critici: <b>Sifone PVC ø40</b> (120/200) e <b>Cassetta WC incasso</b> (25/60). Bozze di riordino pronte per Aldo Bruno.',act:['Apri Magazzino',"openDrill('stage:magazzino')"]},
+  {kw:['picking','preliev','sp-2284','sp 2284','parzial'],pill:['warn','PICKING'],reply:'<b>SP-2284</b> è un prelievo <b>parziale</b>: 9 pz di Raccordo PVC mancanti → bozza di riordino. Le altre liste procedono.',act:["Apri l'app di picking","goTo('picking')"]},
+  {kw:['produz','linea','estrusion','macchina','stampo','mes'],pill:['warn','PRODUZIONE'],reply:'In produzione: <b>linea estrusione 2</b> tempo ciclo +8% (possibile usura stampo) e un fermo presse 1 di 42 min. 8 OP in corso, 1 in ritardo.',act:['Dettaglio produzione',"openDrill('stage:produzione')"]},
+  {kw:['spedizion','ddt','consegn','vettore','transito'],pill:['ok','SPEDIZIONE'],reply:'Spedizioni: <b>12 in preparazione</b>, 5 in transito, 7 consegnate oggi. Flusso regolare.',act:['Apri Spedizione',"openDrill('stage:spedizione')"]},
+  {kw:['fattur','imponibil','da emettere'],pill:['warn','FATTURE'],reply:'<b>18 fatture da emettere</b>. Attenzione: una consegna (DDT 18/6 a Idrotermica Salento) non è ancora fatturata — cassa che ritarda.',act:['Apri Fatture',"openDrill('stage:fatture')"]},
+  {kw:['margin','rotazion','valvol','promo','insight','redditiz'],pill:['warn','INSIGHT'],reply:'Pattern dalla BI: <b>Valvole anti-riflusso</b> margine 41% ma rotazione lenta (€ 78k fermi). Candidate a una promo mirata.',act:['Apri Insight strategici',"goTo('bi')"]}
+];
+function chatReply(q){const s=q.toLowerCase();return CHAT_INTENTS.find(i=>i.kw.some(k=>s.includes(k)))||{reply:'Posso guidarti tra le fasi del flusso: <b>ordini, controllo credito, produzione, magazzino, picking, spedizione, fatture, incassi</b>. Prova con «cosa non va oggi?».'};}
+let chatMessages=[{who:'ag',html:"Ciao! Sono l'assistente dei flussi. Leggo i dati sotto e ti porto dove serve: chiedimi cosa sta succedendo o tocca un suggerimento."}];
+function renderChat(){
+  const host=document.getElementById('chatMsgs'); if(!host)return;
+  host.innerHTML=chatMessages.map(m=>{
+    if(m.who==='me')return '<div class="cmsg me">'+m.html+'</div>';
+    const pill=m.pill?'<span class="cpill '+m.pill[0]+'">'+m.pill[1]+'</span>':'';
+    const btn=m.act?'<div><button class="cbtn" onclick="'+m.act[1]+'">'+m.act[0]+' →</button></div>':'';
+    return '<div class="cmsg ag">'+pill+m.html+btn+'</div>';
+  }).join('');
+  host.scrollTop=host.scrollHeight;
+}
+function renderChatChips(){
+  const chips=['Cosa non va oggi?','Ordini bloccati',"Com'è lo scaduto?",'Cosa manca a magazzino?',"Dov'è SP-2284?"];
+  const host=document.getElementById('chatChips'); if(!host)return;
+  host.innerHTML=chips.map(c=>'<button class="fc-chip" onclick="chatAsk(\''+c.replace(/'/g,"\\'")+'\')">'+c+'</button>').join('');
+}
+function chatAgent(it){chatMessages.push({who:'ag',html:it.reply,pill:it.pill,act:it.act});renderChat();}
+function chatAsk(q){chatMessages.push({who:'me',html:q});renderChat();setTimeout(function(){chatAgent(chatReply(q));},320);}
+function chatSend(){const el=document.getElementById('chatInput');const v=(el.value||'').trim();if(!v)return;el.value='';chatAsk(v);}
+renderChat(); renderChatChips();
 
 document.addEventListener('keydown',function(e){ if(e.key==='Escape' && document.getElementById('screen-detail').classList.contains('active')) back(); });
 wireDrills();
