@@ -412,6 +412,52 @@ body::after{ /* grana */
 .vctbl th{padding:7px 9px;font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--line);text-align:left}
 .vctbl td{padding:8px 9px;border-bottom:1px solid var(--line-soft);font-size:12px;color:var(--ink-2)}
 @media(max-width:760px){.vox-charts{grid-template-columns:1fr}}
+
+/* ===== Analisi OLAP (analyzer) ===== */
+.olap-grid{display:grid;grid-template-columns:236px 1fr;gap:16px;align-items:start;max-width:1240px;margin:0 auto}
+.olap-pal{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px;position:sticky;top:0}
+.olap-pal .ph{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin:0 0 9px}
+.olap-pal .pg{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:12px 0 6px}
+.olf{display:flex;align-items:center;gap:7px;cursor:grab;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:7px 9px;margin-bottom:6px;font-size:12px;color:var(--ink-2);transition:.13s}
+.olf:hover{border-color:var(--navy-bright);color:#fff}
+.olf.used{opacity:.45}
+.olf .sig{font-family:var(--mono);font-weight:700;color:var(--navy-bright);font-size:12px}
+.olf .gr{color:var(--ink-3)}
+.olf .fl{flex:1}
+.olf .ck{color:var(--ok);font-size:13px}
+.olz-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.olz{flex:1;min-width:150px;background:rgba(8,12,36,.4);border:1.5px dashed var(--line);border-radius:10px;padding:10px 11px;min-height:60px;transition:.13s}
+.olz.drop-hot{border-color:var(--navy-bright);background:rgba(84,104,214,.14)}
+.olz-lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px}
+.olz-pills{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.olz-ph{font-size:11px;color:var(--ink-3);font-style:italic}
+.olpill{display:inline-flex;align-items:center;gap:6px;border-radius:7px;padding:4px 8px;font-size:11.5px;font-weight:600}
+.olpill.dim{background:var(--panel-2);border:1px solid var(--line);color:var(--ink-2)}
+.olpill.meas{background:rgba(84,104,214,.16);border:1px solid rgba(84,104,214,.5);color:#9bacff}
+.olpill.filt{background:var(--panel-2);border:1px solid var(--line);color:var(--ink-2)}
+.olpill button{appearance:none;border:none;background:none;cursor:pointer;color:inherit;font-size:13px;padding:0;line-height:1}
+.olpill .mv{color:var(--navy-bright);font-size:12px}
+.olp-presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.olp-preset{cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--ink-2);font-size:11.5px;font-weight:600;padding:6px 11px;border-radius:30px;transition:.13s}
+.olp-preset:hover{border-color:var(--navy-bright);color:#fff}
+.olmembers{margin-bottom:14px;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:12px}
+.olmem{cursor:pointer;border-radius:7px;padding:5px 9px;font-size:11.5px;font-weight:600;margin:0 6px 6px 0;border:1px solid var(--line);background:var(--panel);color:var(--ink-3)}
+.olmem.on{border-color:var(--ok);background:rgba(37,196,107,.14);color:#5cd98f}
+.olxt-wrap{overflow-x:auto}
+.olxt{width:100%;border-collapse:collapse;font-size:12.5px}
+.olxt th{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);font-weight:600;white-space:nowrap;border-bottom:1px solid var(--line);padding:8px 10px}
+.olxt th.l{text-align:left}.olxt th.r{text-align:right}
+.olxt th.grp{text-align:center;color:#c9cee0;border-left:1px solid var(--line-soft)}
+.olxt td{padding:9px 10px;border-bottom:1px solid var(--line-soft);white-space:nowrap}
+.olxt td.l{text-align:left;color:var(--ink);font-weight:500}
+.olxt td.sub{color:var(--ink-3);font-weight:600}
+.olxt td.r{font-family:var(--mono);text-align:right;color:var(--ink-2)}
+.olxt td.tot{font-weight:700;color:#fff}
+.olxt td.empty{font-family:var(--mono);text-align:right;color:var(--ink-3)}
+.olxt tbody tr.sep td{border-top:1px solid var(--line)}
+.olxt tfoot td{border-top:2px solid var(--line);font-family:var(--mono);font-weight:700;color:#fff;padding:10px}
+.olxt tfoot td.l{font-family:var(--display)}
+@media(max-width:900px){.olap-grid{grid-template-columns:1fr}.olap-pal{position:static}}
 .hbar .ht{height:11px;border-radius:30px;background:rgba(255,255,255,.06);overflow:hidden}
 .hbar .ht i{display:block;height:100%;border-radius:30px;transition:width 1s cubic-bezier(.2,.8,.2,1)}
 
@@ -627,6 +673,10 @@ svg.line{width:100%;height:auto;display:block}
       <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
       VoxBI
       <span class="tag dev">AI</span>
+    </button>
+    <button class="nav-item" data-screen="olap">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 9v12M3 15h18"/></svg>
+      Analisi OLAP
     </button>
 
     <div class="rail-foot">
@@ -1232,6 +1282,22 @@ svg.line{width:100%;height:auto;display:block}
   </section>
 
   <!-- ========================================================= -->
+  <!-- SCHERMATA 6 — ANALISI OLAP (analyzer stile Pentaho/Saiku) -->
+  <!-- ========================================================= -->
+  <section class="screen" id="screen-olap">
+    <header class="topbar">
+      <button class="mnav" onclick="toggleRail()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      <div class="tb-title">
+        <h1>Analisi OLAP</h1>
+        <p>Report ad hoc · trascina dimensioni e misure, la pivot si costruisce al volo</p>
+      </div>
+      <div class="tb-spacer"></div>
+      <button class="btn soft" onclick="olapSend()">Salva &amp; invia report</button>
+    </header>
+    <div class="content"><div id="olapApp"></div></div>
+  </section>
+
+  <!-- ========================================================= -->
   <!-- SCHERMATA DINAMICA — DRILL-DOWN -->
   <!-- ========================================================= -->
   <section class="screen" id="screen-detail">
@@ -1250,8 +1316,8 @@ svg.line{width:100%;height:auto;display:block}
 
 <script>
 /* ===== Navigazione tra schermate ===== */
-const screens = {home:'screen-home', agent:'screen-agent', picking:'screen-picking', bi:'screen-bi', vox:'screen-vox'};
-const mainLabels = {home:'Cabina di Regia', agent:'Momento Agentico', picking:'App Picking', bi:'BI & Insight', vox:'VoxBI'};
+const screens = {home:'screen-home', agent:'screen-agent', picking:'screen-picking', bi:'screen-bi', vox:'screen-vox', olap:'screen-olap'};
+const mainLabels = {home:'Cabina di Regia', agent:'Momento Agentico', picking:'App Picking', bi:'BI & Insight', vox:'VoxBI', olap:'Analisi OLAP'};
 let currentMain = 'home';
 let detailStack = [];
 function showOnly(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active', s.id===id));}
@@ -1948,6 +2014,144 @@ function renderVoxReport(query){
 function voxSubmit(){const q=(document.getElementById('voxInput').value||'').trim();if(!q){toast('info','Scrivi una domanda','Es. «Top 5 clienti per marginalità» o «Andamento vendite vs budget».');return;}renderVoxReport(q);}
 function voxAsk(q){document.getElementById('voxInput').value=q;renderVoxReport(q);}
 function voxReset(){document.getElementById('voxInput').value='';document.getElementById('voxResults').innerHTML='<div class="vox-empty">Scrivi una richiesta o tocca un esempio: genero <b>narrazione e grafici in tempo reale</b>, scelti in base alla domanda. Tutto offline, su dati sintetici.</div>';document.getElementById('voxInput').focus();}
+
+/* ============================================================
+   Analisi OLAP — analyzer ad hoc (stile Pentaho/Saiku)
+   ============================================================ */
+const BI_DIMS=[
+  {name:'Geografia',icon:'🌍',levels:['area','regione','cliente']},
+  {name:'Prodotto',icon:'📦',levels:['famiglia']},
+  {name:'Tempo',icon:'🕒',levels:['trimestre','mese']}
+];
+const BI_MEAS=['fatturato','budget','delta','achiev','margine','marginePct','qta','scaduto'];
+function memberOrder(level){if(level==='mese')return OLAP_MESI.map(m=>m.name);if(level==='trimestre')return ['T1','T2'];if(level==='area')return ['Italia','Export'];return null;}
+const OLAP_PRESETS=[
+  {label:'Marginalità per famiglia',p:{rows:['famiglia'],cols:[],measures:['fatturato','marginePct']}},
+  {label:'Vendite per area × trimestre',p:{rows:['area'],cols:['trimestre'],measures:['fatturato']}},
+  {label:'Scaduto per cliente',p:{rows:['cliente'],cols:[],measures:['scaduto','marginePct']}},
+  {label:'Geografia (area ▸ regione)',p:{rows:['area','regione'],cols:[],measures:['fatturato']}},
+  {label:'Famiglia × mese',p:{rows:['famiglia'],cols:['mese'],measures:['fatturato']}}
+];
+const olapState={rows:['famiglia'],cols:[],measures:['fatturato','marginePct'],filters:{},openFilter:null};
+const olapIsMeas=f=>BI_MEAS.includes(f);
+function olapInUse(f){return olapState.rows.includes(f)||olapState.cols.includes(f)||olapState.measures.includes(f)||(f in olapState.filters);}
+function olapStrip(f){olapState.rows=olapState.rows.filter(x=>x!==f);olapState.cols=olapState.cols.filter(x=>x!==f);olapState.measures=olapState.measures.filter(x=>x!==f);if(f in olapState.filters)delete olapState.filters[f];}
+function olapDropTo(f,axis){
+  if(olapState.openFilter&&!(olapState.openFilter in olapState.filters))olapState.openFilter=null;
+  olapStrip(f);
+  if(axis==='measures'||(olapIsMeas(f)&&axis!=='filters')){olapState.measures.push(f);}
+  else if(axis==='cols'){olapState.cols.push(f);}
+  else if(axis==='filters'){if(olapIsMeas(f))olapState.measures.push(f);else olapState.filters[f]=null;}
+  else {olapState.rows.push(f);}
+  renderOlap();
+}
+function olapAdd(f){olapDropTo(f,olapIsMeas(f)?'measures':'rows');}
+function olapRemove(f){olapStrip(f);if(olapState.openFilter===f)olapState.openFilter=null;renderOlap();}
+function olapMove(f){if(olapState.rows.includes(f)){olapState.rows=olapState.rows.filter(x=>x!==f);olapState.cols.push(f);}else if(olapState.cols.includes(f)){olapState.cols=olapState.cols.filter(x=>x!==f);olapState.rows.push(f);}renderOlap();}
+function olapPreset(p){olapState.rows=p.rows.slice();olapState.cols=p.cols.slice();olapState.measures=p.measures.slice();olapState.filters={};olapState.openFilter=null;renderOlap();}
+function olapOpenFilter(f){olapState.openFilter=olapState.openFilter===f?null:f;renderOlap();}
+function olapToggleMember(lvl,mv){const all=olapDistinct(FACTS,lvl);let sel=olapState.filters[lvl];if(sel==null)sel=all.slice();if(sel.includes(mv))sel=sel.filter(x=>x!==mv);else sel=sel.concat([mv]);if(!sel.length)sel=all.slice();olapState.filters[lvl]=(sel.length===all.length?null:sel);renderOlap();}
+function olapSend(){toast('ok','Report OLAP salvato','Analisi «'+olapHeadline()+'» salvata tra le analisi e inviata in PDF a Gaetano e Barbara Carluccio.');}
+function olapHeadline(){const r=olapState.rows.map(l=>BI_FIELDS[l].label),c=olapState.cols.map(l=>BI_FIELDS[l].label),m=(olapState.measures.length?olapState.measures:['fatturato']).map(x=>MEASURES[x].label);return m.join(' + ')+(r.length?' per '+r.join(' ▸ '):'')+(c.length?' × '+c.join(' '):'');}
+function olapFieldChip(field){
+  const used=olapInUse(field),meas=olapIsMeas(field);
+  const icon=meas?'<span class="sig">Σ</span>':'<span class="gr">▦</span>';
+  return '<div class="olf'+(used?' used':'')+'" draggable="true" data-field="'+field+'" title="Trascina su Righe/Colonne/Misure/Filtri o clicca per aggiungere">'+icon+'<span class="fl">'+BI_FIELDS[field].label+'</span>'+(used?'<span class="ck">✓</span>':'<span class="gr">⠿</span>')+'</div>';
+}
+function olapPill(field,kind){
+  if(kind==='measure')return '<span class="olpill meas">Σ '+BI_FIELDS[field].label+'<button data-act="remove" data-field="'+field+'">×</button></span>';
+  if(kind==='filter'){const sel=olapState.filters[field];const all=olapDistinct(FACTS,field);const lbl=sel==null?'tutti':sel.length+'/'+all.length;return '<span class="olpill filt"><button data-act="filter" data-field="'+field+'">'+BI_FIELDS[field].label+': '+lbl+' ▾</button><button data-act="remove" data-field="'+field+'">×</button></span>';}
+  return '<span class="olpill dim">'+BI_FIELDS[field].label+'<button class="mv" data-act="move" data-field="'+field+'" title="Sposta righe/colonne">⇄</button><button data-act="remove" data-field="'+field+'">×</button></span>';
+}
+function olapZone(title,axis,fields,kind){
+  const ph='<span class="olz-ph">trascina qui…</span>';
+  return '<div class="olz" data-drop="'+axis+'"><div class="olz-lbl">'+title+'</div><div class="olz-pills">'+(fields.length?fields.map(f=>olapPill(f,kind)).join(''):ph)+'</div></div>';
+}
+function renderOlap(){
+  let facts=FACTS;
+  Object.entries(olapState.filters).forEach(([lvl,vals])=>{if(vals)facts=facts.filter(r=>vals.includes(r[lvl]));});
+  const rowLevels=olapState.rows,colLevels=olapState.cols,meas=olapState.measures.length?olapState.measures:['fatturato'];
+  const matches=(r,levels,tup)=>levels.every((l,i)=>r[l]===tup[i]);
+  function tuples(levels){if(!levels.length)return [[]];const seen=new Set(),res=[];facts.forEach(r=>{const k=levels.map(l=>r[l]).join('|');if(!seen.has(k)){seen.add(k);res.push(levels.map(l=>r[l]));}});res.sort((a,b)=>{for(let i=0;i<levels.length;i++){const ord=memberOrder(levels[i]);const av=ord?ord.indexOf(a[i]):a[i],bv=ord?ord.indexOf(b[i]):b[i];if(av<bv)return -1;if(av>bv)return 1;}return 0;});return res;}
+  const rowTuples=tuples(rowLevels),colTuples=tuples(colLevels);
+  const colGroups=colTuples.map(ct=>({ct,label:ct.length?ct.join(' / '):MEASURES[meas[0]].label}));
+  if(colLevels.length)colGroups.push({ct:null,label:'Totale',isTotal:true});
+  // palette
+  const measPalette=BI_MEAS.map(olapFieldChip).join('');
+  const dimPalette=BI_DIMS.map(d=>'<div class="pg">'+d.icon+' '+d.name+'</div>'+d.levels.map(olapFieldChip).join('')).join('');
+  const palette='<div class="olap-pal"><div class="ph">Misure</div>'+measPalette+'<div class="ph" style="margin-top:14px">Dimensioni</div>'+dimPalette+'</div>';
+  // zones
+  const zones='<div class="olz-row">'+olapZone('▦ Righe','rows',rowLevels,'dim')+olapZone('▥ Colonne','cols',colLevels,'dim')+olapZone('Σ Misure','measures',olapState.measures,'measure')+olapZone('⛃ Filtri','filters',Object.keys(olapState.filters),'filter')+'</div>';
+  // member panel
+  let memberPanel='';
+  if(olapState.openFilter&&(olapState.openFilter in olapState.filters)){
+    const lvl=olapState.openFilter,all=olapDistinct(FACTS,lvl),ord=memberOrder(lvl);
+    const members=ord?all.slice().sort((a,b)=>ord.indexOf(a)-ord.indexOf(b)):all;const sel=olapState.filters[lvl];
+    const chips=members.map(mv=>{const on=sel==null||sel.includes(mv);return '<button class="olmem'+(on?' on':'')+'" data-act="member" data-lvl="'+lvl+'" data-mv="'+mv+'">'+(on?'✓ ':'')+mv+'</button>';}).join('');
+    memberPanel='<div class="olmembers"><div class="olz-lbl">Membri · '+BI_FIELDS[lvl].label+'</div>'+chips+'</div>';
+  }
+  // presets
+  const presets='<div class="olp-presets">'+OLAP_PRESETS.map((pr,i)=>'<button class="olp-preset" data-act="preset" data-i="'+i+'">'+pr.label+'</button>').join('')+'</div>';
+  // crosstab
+  const leftCount=rowLevels.length||1;
+  let thead='';
+  if(colLevels.length){
+    thead+='<tr><th class="l" colspan="'+leftCount+'"></th>'+colGroups.map(g=>'<th class="grp" colspan="'+meas.length+'">'+g.label+'</th>').join('')+'</tr>';
+    thead+='<tr>'+(rowLevels.length?rowLevels:['']).map(l=>'<th class="l">'+(l?BI_FIELDS[l].label:'')+'</th>').join('')+colGroups.map(g=>meas.map(m=>'<th class="r">'+MEASURES[m].label+'</th>').join('')).join('')+'</tr>';
+  } else {
+    thead+='<tr>'+(rowLevels.length?rowLevels:['']).map(l=>'<th class="l">'+(l?BI_FIELDS[l].label:'Misura')+'</th>').join('')+meas.map(m=>'<th class="r">'+MEASURES[m].label+'</th>').join('')+'</tr>';
+  }
+  const tbody=rowTuples.map((rt,ri)=>{
+    const changedAt=i=>ri===0||rowLevels.some((_,j)=>j<=i&&rt[j]!==rowTuples[ri-1][j]);
+    const sep=rowLevels.length>1&&ri>0&&rt[0]!==rowTuples[ri-1][0];
+    const left=rowLevels.length?rowLevels.map((l,i)=>'<td class="l'+(i<rowLevels.length-1?' sub':'')+'">'+(changedAt(i)?rt[i]:'')+'</td>').join(''):'<td class="l">Totale</td>';
+    const vals=colGroups.map(g=>meas.map(m=>{const subset=facts.filter(r=>matches(r,rowLevels,rt)&&(g.isTotal?true:matches(r,colLevels,g.ct)));const M=MEASURES[m];const empty=!subset.length||(M.kind==='pct'?subset.reduce((a,r)=>a+r[M.den],0)===0:olapAgg(subset,m)===0);if(empty)return '<td class="empty">–</td>';return '<td class="r'+(g.isTotal?' tot':'')+'">'+olapFmt(olapAgg(subset,m),m)+'</td>';}).join('')).join('');
+    return '<tr'+(sep?' class="sep"':'')+'>'+left+vals+'</tr>';
+  }).join('');
+  const tfoot='<tr><td class="l" colspan="'+leftCount+'">Totale complessivo</td>'+colGroups.map(g=>meas.map(m=>'<td class="r">'+olapFmt(g.isTotal?olapAgg(facts,m):olapAgg(facts.filter(r=>matches(r,colLevels,g.ct)),m),m)+'</td>').join('')).join('')+'</tr>';
+  const crosstab='<div class="panel" style="margin-bottom:16px"><div class="panel-h"><h3>Tabella pivot</h3><span class="dpill dim">'+rowTuples.length+'×'+(colGroups.length||1)+' · '+meas.length+' misure</span></div><div class="panel-b"><div class="olxt-wrap"><table class="olxt"><thead>'+thead+'</thead><tbody>'+tbody+'</tbody><tfoot>'+tfoot+'</tfoot></table></div></div></div>';
+  // charts
+  const m0=meas[0];
+  const dimA=rowLevels[0]||'famiglia';
+  const rowsA=olapDistinct(facts,dimA).map(v=>({label:v,val:olapAgg(facts.filter(r=>r[dimA]===v),m0)})).sort((a,b)=>Math.abs(b.val)-Math.abs(a.val)).slice(0,8);
+  const rowsB=OLAP_MESI.map(mm=>({label:mm.name,val:olapAgg(facts.filter(r=>r.mese===mm.name),'fatturato')}));
+  const rowsBud=OLAP_MESI.map(mm=>({label:mm.name,val:olapAgg(facts.filter(r=>r.mese===mm.name),'budget')}));
+  const rowsC=['Italia','Export'].map(a=>({label:a,val:olapAgg(facts.filter(r=>r.area===a),'fatturato')}));
+  const rowsAch=OLAP_FAM.map(f=>({label:f.name,val:olapAgg(facts.filter(r=>r.famiglia===f.name),'achiev')})).sort((a,b)=>b.val-a.val);
+  const card=(t,s,inner)=>'<div class="vox-chart"><div class="ct">'+t+'</div><div class="cs">'+s+'</div>'+inner+'</div>';
+  const charts='<div class="vox-sech">Viste grafiche sulla selezione corrente</div><div class="vox-charts">'+
+    card(MEASURES[m0].label+' per '+BI_FIELDS[dimA].label.toLowerCase(),'classifica (barre)',chBars(rowsA,m0,130))+
+    card('Fatturato vs Budget · per mese','consuntivo vs budget (linee)',chLine(rowsB,'fatturato',rowsBud,'budget'))+
+    card('Italia vs Export','quota di fatturato (ciambella)',chDonut(rowsC,'fatturato'))+
+    card('% su budget per famiglia','raggiungimento target (colonne)',chColumns(rowsAch,'achiev'))+
+  '</div>';
+  // narrative
+  const nar=biNarrative(facts,rowLevels,colLevels,meas);
+  const narr='<div class="vox-narr"><span class="av">AI</span><ul>'+nar.bullets.map(b=>'<li>'+b+'</li>').join('')+'</ul></div>';
+  const main='<div>'+presets+zones+memberPanel+crosstab+narr+charts+'</div>';
+  document.getElementById('olapApp').innerHTML='<div class="olap-grid">'+palette+main+'</div>';
+}
+(function(){
+  const app=document.getElementById('olapApp');
+  if(!app)return;
+  app.addEventListener('click',function(e){
+    const act=e.target.closest('[data-act]');
+    if(act){const a=act.getAttribute('data-act');
+      if(a==='remove')olapRemove(act.getAttribute('data-field'));
+      else if(a==='move')olapMove(act.getAttribute('data-field'));
+      else if(a==='filter')olapOpenFilter(act.getAttribute('data-field'));
+      else if(a==='preset')olapPreset(OLAP_PRESETS[+act.getAttribute('data-i')].p);
+      else if(a==='member')olapToggleMember(act.getAttribute('data-lvl'),act.getAttribute('data-mv'));
+      return;}
+    const chip=e.target.closest('[data-field]');
+    if(chip)olapAdd(chip.getAttribute('data-field'));
+  });
+  app.addEventListener('dragstart',function(e){const chip=e.target.closest('[data-field]');if(chip){e.dataTransfer.setData('text/plain',chip.getAttribute('data-field'));e.dataTransfer.effectAllowed='copy';}});
+  app.addEventListener('dragover',function(e){const z=e.target.closest('[data-drop]');if(z){e.preventDefault();z.classList.add('drop-hot');}});
+  app.addEventListener('dragleave',function(e){const z=e.target.closest('[data-drop]');if(z)z.classList.remove('drop-hot');});
+  app.addEventListener('drop',function(e){const z=e.target.closest('[data-drop]');if(z){e.preventDefault();z.classList.remove('drop-hot');const f=e.dataTransfer.getData('text/plain');if(f)olapDropTo(f,z.getAttribute('data-drop'));}});
+  renderOlap();
+})();
 
 document.addEventListener('keydown',function(e){ if(e.key==='Escape' && document.getElementById('screen-detail').classList.contains('active')) back(); });
 wireDrills();
