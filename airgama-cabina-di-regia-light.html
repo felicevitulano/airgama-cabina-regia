@@ -2105,7 +2105,9 @@ function voxAnalyze(query){
   else if(has('andamento','trend','mensile','mese','tempo','crescita','evoluzione'))dim='mese';
   else if(has('area','geografi'))dim='area';
   else dim='famiglia';
-  if(has('per mese','per trimestr'))dim='mese';
+  const bothTrim=/\bt1\b/.test(s)&&/\bt2\b/.test(s);
+  if(has('per mese'))dim='mese';
+  if(bothTrim||has('per trimestre','per trimestr','trimestri','confronto trimestr'))dim='trimestre';
   if(has('famiglia','prodott')&&has('trimestr'))dim='famiglia';
   const numM=s.match(/\b(\d{1,2})\b/);const limit=numM?Math.max(1,Math.min(12,+numM[1])):8;
   let facts=FACTS;const fl=[];
@@ -2117,8 +2119,10 @@ function voxAnalyze(query){
   const MESI_FULL={gennaio:'Gen',febbraio:'Feb',marzo:'Mar',aprile:'Apr',maggio:'Mag',giugno:'Giu'};
   Object.keys(MESI_FULL).forEach(mn=>{if(s.includes(mn)){facts=facts.filter(r=>r.mese===MESI_FULL[mn]);fl.push(mn[0].toUpperCase()+mn.slice(1));}});
   // filtro per trimestre (T1 = gen–mar, T2 = apr–giu)
-  if(/\bt1\b/.test(s)||has('primo trimestre','1° trimestre','1 trimestre','primo trim')){facts=facts.filter(r=>r.trimestre==='T1');fl.push('T1');}
-  else if(/\bt2\b/.test(s)||has('secondo trimestre','2° trimestre','2 trimestre','secondo trim')){facts=facts.filter(r=>r.trimestre==='T2');fl.push('T2');}
+  if(!bothTrim){
+    if(/\bt1\b/.test(s)||has('primo trimestre','1° trimestre','1 trimestre','primo trim')){facts=facts.filter(r=>r.trimestre==='T1');fl.push('T1');}
+    else if(/\bt2\b/.test(s)||has('secondo trimestre','2° trimestre','2 trimestre','secondo trim')){facts=facts.filter(r=>r.trimestre==='T2');fl.push('T2');}
+  }
   const wantTime=has('andamento','trend','mensile','mese','tempo','crescita','evoluzione','trimestre');
   const wantBudget=has('budget','target','obiettiv','raggiungiment');
   const monthsFat=OLAP_MESI.map(m=>({label:m.name,val:olapAgg(facts.filter(r=>r.mese===m.name),'fatturato')}));
