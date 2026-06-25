@@ -712,6 +712,8 @@ body::after{ /* grana */
 .abtext.warn{fill:var(--warn)} .abtext.crit{fill:var(--red-soft)}
 .fwire{fill:none;stroke:rgba(124,135,184,.35);stroke-width:2}
 .fwire.live{stroke:rgba(84,104,214,.55)}
+.fwire.warn{stroke:rgba(245,179,1,.6);stroke-width:2.4}
+.fwire.crit{stroke:rgba(225,35,26,.6);stroke-width:2.6}
 .flegend{display:flex;gap:18px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-3);padding:6px 4px 10px}
 .flegend span{display:inline-flex;align-items:center;gap:6px}
 .flegend i{width:9px;height:9px;border-radius:3px;display:inline-block}
@@ -893,6 +895,11 @@ svg.line{width:100%;height:auto;display:block}
 .dtbl tfoot .tfval{color:var(--ink);font-weight:700;font-size:14px}
 .d-note.crit{background:rgba(225,35,26,.09);border-color:rgba(225,35,26,.35)} .d-note.crit svg{color:var(--red-soft)}
 .d-note.warn{background:rgba(245,179,1,.1);border-color:rgba(245,179,1,.4)} .d-note.warn svg{color:var(--warn)}
+.anom{padding:11px 13px;border-radius:10px;border:1px solid var(--line-soft);border-left:3px solid var(--line);background:var(--panel-2);margin-bottom:9px}
+.anom:last-child{margin-bottom:0}
+.anom.crit{border-left-color:var(--red)} .anom.warn{border-left-color:var(--warn)}
+.anom .an-t{font-size:13px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:9px}
+.anom .an-d{font-size:12px;color:var(--ink-3);margin-top:5px;line-height:1.45}
 .d-mini{font-size:11px;color:var(--ink-3);margin-top:8px}
 
 .dpill{font-family:var(--mono);font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;text-transform:uppercase;letter-spacing:.03em}
@@ -1037,19 +1044,19 @@ svg.line{width:100%;height:auto;display:block}
             <linearGradient id="coreGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#283570"/><stop offset="1" stop-color="#1a224f"/></linearGradient>
           </defs>
           <!-- wires sorgenti -> core -->
-          <path id="fs1" class="fwire live" d="M285,68 C340,68 360,195 410,200"/>
-          <path id="fs2" class="fwire" d="M285,176 C340,176 360,222 410,228"/>
-          <path id="fs3" class="fwire live" d="M285,284 C340,284 360,250 410,250"/>
-          <path id="fs4" class="fwire" d="M285,392 C340,392 360,285 410,278"/>
+          <path id="fs1" class="fwire warn" d="M285,68 C340,68 360,195 410,200"/>
+          <path id="fs2" class="fwire warn" d="M285,176 C340,176 360,222 410,228"/>
+          <path id="fs3" class="fwire warn" d="M285,284 C340,284 360,250 410,250"/>
+          <path id="fs4" class="fwire crit" d="M285,392 C340,392 360,285 410,278"/>
           <!-- wires core -> output -->
           <path id="fo1" class="fwire live" d="M610,210 C690,210 700,108 760,108"/>
           <path id="fo2" class="fwire live" d="M610,238 C690,238 700,235 760,235"/>
           <path id="fo3" class="fwire live" d="M610,266 C690,266 700,362 760,362"/>
           <!-- dots animati -->
-          <circle r="3.4" fill="#5468d6"><animateMotion dur="2.2s" repeatCount="indefinite"><mpath href="#fs1"/></animateMotion></circle>
-          <circle r="3.4" fill="#f5b301"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#fs2"/></animateMotion></circle>
-          <circle r="3.4" fill="#5468d6"><animateMotion dur="1.9s" repeatCount="indefinite"><mpath href="#fs3"/></animateMotion></circle>
-          <circle r="3.4" fill="#5468d6"><animateMotion dur="2.5s" repeatCount="indefinite"><mpath href="#fs4"/></animateMotion></circle>
+          <circle r="3.6" fill="#f5b301"><animateMotion dur="2.2s" repeatCount="indefinite"><mpath href="#fs1"/></animateMotion></circle>
+          <circle r="3.6" fill="#f5b301"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#fs2"/></animateMotion></circle>
+          <circle r="3.6" fill="#f5b301"><animateMotion dur="1.9s" repeatCount="indefinite"><mpath href="#fs3"/></animateMotion></circle>
+          <circle r="3.8" fill="#e1231a"><animateMotion dur="2.5s" repeatCount="indefinite"><mpath href="#fs4"/></animateMotion></circle>
           <circle r="3.4" fill="#5468d6"><animateMotion dur="2.0s" repeatCount="indefinite"><mpath href="#fo1"/></animateMotion></circle>
           <circle r="3.4" fill="#5468d6"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#fo2"/></animateMotion></circle>
           <circle r="3.4" fill="#5468d6"><animateMotion dur="2.1s" repeatCount="indefinite"><mpath href="#fo3"/></animateMotion></circle>
@@ -2677,20 +2684,42 @@ function renderPipeline(){
     return card+chev;
   }).join('');
 }
+const STAGE_ANOMALIES={
+  ordini:[
+    {sev:'crit',t:'Ordine Edilsud bloccato',d:'OC-2284 da € 18.500 fermato dal controllo credito (esposizione € 30.800 vs fido € 22.000).'},
+    {sev:'warn',t:'Sconto fuori soglia',d:'Termoidraulica Jonica al 18% (max 12%): serve ok del responsabile.'},
+    {sev:'warn',t:'Ordini senza data di consegna',d:'3 ordini di oggi senza data richiesta dal cliente.'}
+  ],
+  produzione:[
+    {sev:'warn',t:'Linea estrusione 2: usura stampo',d:'Tempo ciclo +8% letto dal MES: controllo proposto a Marco Carluccio.'},
+    {sev:'warn',t:'OP-1185 in ritardo',d:'Pozzetti PP −1 turno sul piano di produzione.'}
+  ],
+  picking:[
+    {sev:'warn',t:'SP-2284 prelievo parziale',d:'9 pz di Raccordo PVC mancanti → bozza di riordino da confermare.'}
+  ],
+  incassi:[
+    {sev:'crit',t:'Scaduto Costruzioni Adriatica',d:'€ 28.400, 62 gg, oltre fido € 25.000.'},
+    {sev:'crit',t:'Scaduto Gruppo Edile Brindisino',d:'€ 19.700, 38 gg, oltre fido.'},
+    {sev:'warn',t:'Esposizione Edilsud',d:'Con il nuovo ordine € 30.800 vs fido € 22.000.'},
+    {sev:'warn',t:'F24 IVA in scadenza',d:'€ 14.200 in scadenza tra 4 giorni.'}
+  ]
+};
 function drillStage(key){
   const s=STAGES[key]; if(!s)return;
-  const at=STAGE_ATTN[key];
   const acts=(STAGE_LINKS[key]||[]).map(l=>'<button class="btn '+(l[2]?'primary':'soft')+'" onclick="'+l[1]+'">'+l[0]+' →</button>').join('');
   const thead=s.cols.map(c=>'<th class="'+(c.n?'n':'')+'">'+c.t+'</th>').join('');
   const tb=s.rows.map(r=>'<tr>'+r.c.map((cell,i)=>'<td class="'+(s.cols[i].n?'n':'')+'">'+cell+'</td>').join('')+'<td>'+dpill(r.st[0],r.st[1])+'</td></tr>').join('');
-  const banner=at&&at.sev!=='ok'?'<div class="d-note '+(at.sev==='crit'?'crit':'warn')+'" style="margin-top:0;margin-bottom:18px">'+NOTE_SVG+'<span><b>Punto di attenzione:</b> '+at.t+' — '+s.note+'</span></div>':'';
+  const anom=STAGE_ANOMALIES[key]||[];
+  const anomRows=anom.map(a=>'<div class="anom '+a.sev+'"><div class="an-t">'+dpill(a.sev,a.sev==='crit'?'Critico':'Attenzione')+'<span>'+a.t+'</span></div><div class="an-d">'+a.d+'</div></div>').join('');
+  const anomBadge=anom.length?dpill(anom.some(a=>a.sev==='crit')?'crit':'warn',anom.length+' aperte'):'';
+  const anomPanel=anom.length?panel('Anomalie da gestire',anomRows,anomBadge):'';
   const html='<div class="detail-wrap">'+
-    dhead('Flusso dati · '+s.name,s.name,'Ultime 5 righe lette dal Gestionale · modulo '+s.module+' · sync '+s.lat,acts)+
+    dhead('Flusso dati · '+s.name,s.name,'Sorgente: Gestionale · modulo '+s.module+' · sync '+s.lat,acts)+
+    anomPanel+
+    '<div class="vox-sech" style="margin-top:2px">Cosa è in elaborazione ora</div>'+
     sum3(s.kpis)+
-    banner+
     '<p class="d-lead">'+s.lead+'</p>'+
     panel('Ultime 5 righe dal gestionale','<table class="dtbl"><thead><tr>'+thead+'</tr></thead><tbody>'+tb+'</tbody></table><p class="d-mini">Sola lettura · sorgente: Gestionale · modulo '+s.module+'</p>')+
-    (at&&at.sev==='ok'?'<div class="d-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span>'+s.note+'</span></div>':'')+
   '</div>';
   detail(s.name,html);
 }
