@@ -587,6 +587,8 @@ body::after{ /* grana */
 .vox-mic{width:32px;height:32px;flex:0 0 32px;border-radius:9px;background:var(--navy-bright);display:grid;place-items:center}
 .vox-ttl{font-family:var(--display);font-weight:800;font-size:18px;color:#fff;letter-spacing:.01em}
 .vox-sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#9bacff;margin-top:2px}
+.vox-badge{display:inline-block;margin-left:8px;font-family:var(--mono);font-size:8.5px;font-weight:700;padding:2px 7px;border-radius:20px;letter-spacing:.04em;text-transform:uppercase;vertical-align:middle;background:var(--panel-2);color:var(--ink-3);border:1px solid var(--line-soft)}
+.vox-badge.claude{background:rgba(84,104,214,.18);color:#9bacff;border-color:rgba(84,104,214,.45)}
 .vox-input-row{display:flex;gap:10px;flex-wrap:wrap}
 #voxInput{flex:1;min-width:260px;appearance:none;border:1px solid rgba(84,104,214,.4);background:rgba(8,12,36,.6);color:#fff;font-family:var(--body);font-size:14px;padding:12px 14px;border-radius:10px;outline:none;transition:.15s}
 #voxInput:focus{border-color:var(--navy-bright)}
@@ -2288,7 +2290,7 @@ function biNarrative(facts,rowLevels,colLevels,meas){
   if(rowLevels.includes('cliente')||colLevels.includes('cliente')||meas.includes('scaduto'))bullets.push('Anomalia su <strong>Edilsud Costruzioni</strong>: margine sotto media e scaduto elevato — la stessa che la cabina ha già intercettato.');
   return {bullets:bullets.slice(0,4),grand};
 }
-function voxAnalyze(query){
+function voxAnalyze(query,displayQuery){
   const s=(query||'').toLowerCase();const has=(...ks)=>ks.some(k=>s.includes(k));
   let measure='fatturato';
   if(has('marginalit')||(has('margin')&&(has('%')||has('percentu'))))measure='marginePct';
@@ -2364,16 +2366,27 @@ function voxAnalyze(query){
   const topTxt=(numM&&dim!=='mese'&&dim!=='area')?' · top '+limit:'';
   const lead='Ho letto la richiesta come <strong>'+MEASURES[measure].label+'</strong> per <strong>'+BI_FIELDS[dim].label.toLowerCase()+'</strong>'+topTxt+(fl.length?' · filtri: '+fl.join(', '):'')+'.';
   const bullets=[lead].concat(nar.bullets);
-  const headline=(query||'').trim()?query.trim():'Panoramica vendite';
+  const headline=((displayQuery||query)||'').trim()?(displayQuery||query).trim():'Panoramica vendite';
   return {headline,subtitle:MEASURES[measure].label+' per '+BI_FIELDS[dim].label.toLowerCase()+topTxt+(fl.length?' · '+fl.join(', '):''),kpis,charts:charts4,bullets};
 }
-function renderVoxReport(query){
-  const r=voxAnalyze(query);
+// Backend Claude: usato solo se la pagina gira in locale (localhost) e il backend risponde; altrimenti parser offline.
+const VOX_BACKEND=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'http://localhost:8787':'';
+function paramsToQuery(p){
+  const mq={fatturato:'fatturato',margine:'margine',marginePct:'marginalità',scaduto:'scaduto',achiev:'budget',qta:'quantità'};
+  const dq={cliente:'per cliente',famiglia:'per famiglia',area:'per area',regione:'per regione',mese:'per mese',trimestre:'per trimestre'};
+  const parts=[mq[p.measure]||'fatturato', dq[p.dim]||'per famiglia'];
+  const f=p.filters||{};
+  ['area','famiglia','cliente','mese','trimestre'].forEach(k=>{if(f[k])parts.push(f[k]);});
+  if(p.limit)parts.push('top '+p.limit);
+  return parts.join(' ');
+}
+function voxRenderResult(r,engine){
   const kpiHtml=r.kpis.map(k=>'<div class="vox-kpi"><div class="kv" style="color:'+k.c+'">'+k.v+'</div><div class="kl">'+k.l+'</div></div>').join('');
   const chartsHtml=r.charts.map(c=>'<div class="vox-chart"><div class="ct">'+c.t+'</div><div class="cs">'+c.s+'</div>'+c.html+'</div>').join('');
   const bulletsHtml=r.bullets.map(b=>'<li>'+b+'</li>').join('');
+  const badge=engine==='claude'?'<span class="vox-badge claude">interpretato da Claude</span>':'<span class="vox-badge">interpretazione offline</span>';
   const html='<div class="vox-report">'+
-    '<div class="vox-rhead"><div class="rh-l"><div class="vox-eyebrow">Richiesta interpretata</div><h2>«'+r.headline+'»</h2><div class="rh-sub">'+r.subtitle+'</div></div>'+
+    '<div class="vox-rhead"><div class="rh-l"><div class="vox-eyebrow">Richiesta interpretata '+badge+'</div><h2>«'+r.headline+'»</h2><div class="rh-sub">'+r.subtitle+'</div></div>'+
     '<button class="btn soft" onclick="toast(\'ok\',\'Report VoxBI inviato\',\'Report «'+r.headline.replace(/'/g,"\\'").replace(/"/g,'&quot;')+'» condiviso in PDF con Gaetano e Barbara Carluccio.\')">Invia report</button>'+
     '<button class="btn ghost" onclick="voxReset()">Nuova domanda</button></div>'+
     '<div class="vox-kpis">'+kpiHtml+'</div>'+
@@ -2383,8 +2396,22 @@ function renderVoxReport(query){
   '</div>';
   document.getElementById('voxResults').innerHTML=html;
 }
-function voxSubmit(){const q=(document.getElementById('voxInput').value||'').trim();if(!q){toast('info','Scrivi una domanda','Es. «Top 5 clienti per marginalità» o «Andamento vendite vs budget».');return;}renderVoxReport(q);}
-function voxAsk(q){document.getElementById('voxInput').value=q;renderVoxReport(q);}
+function renderVoxReport(query){ voxRenderResult(voxAnalyze(query),'offline'); }
+async function voxRun(q){
+  if(!q)return;
+  if(VOX_BACKEND){
+    document.getElementById('voxResults').innerHTML='<div class="vox-empty">🎙️ Claude sta interpretando la domanda…</div>';
+    try{
+      const ctrl=new AbortController(); const t=setTimeout(()=>ctrl.abort(),9000);
+      const resp=await fetch(VOX_BACKEND+'/api/vox',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({question:q}),signal:ctrl.signal});
+      clearTimeout(t);
+      if(resp.ok){const d=await resp.json(); if(d&&d.ok&&d.params){voxRenderResult(voxAnalyze(paramsToQuery(d.params),q),'claude');return;}}
+    }catch(e){/* backend non raggiungibile → fallback offline */}
+  }
+  voxRenderResult(voxAnalyze(q),'offline');
+}
+function voxSubmit(){const q=(document.getElementById('voxInput').value||'').trim();if(!q){toast('info','Scrivi una domanda','Es. «Top 5 clienti per marginalità» o «Andamento vendite vs budget».');return;}voxRun(q);}
+function voxAsk(q){document.getElementById('voxInput').value=q;voxRun(q);}
 function voxReset(){document.getElementById('voxInput').value='';document.getElementById('voxResults').innerHTML='<div class="vox-empty"><b>Analisi libera sui dati disponibili</b> — come l\'OLAP, ma a parole. Combina liberamente <b>misura</b> (fatturato, margine, scaduto, quantità, % budget) + <b>dimensione</b> (cliente, famiglia, area, regione, mese) + <b>filtri</b>: genero narrazione e grafici in tempo reale. Tutto offline, su dati sintetici.</div>';document.getElementById('voxInput').focus();}
 
 /* ============================================================
