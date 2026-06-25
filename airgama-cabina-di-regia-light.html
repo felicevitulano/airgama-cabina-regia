@@ -353,6 +353,14 @@ body::after{ /* grana */
 
 /* ===== Screen 4 — BI ===== */
 .bi-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.period-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:11px 16px}
+.period-bar .pb-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.pb-opts{display:flex;gap:4px;flex-wrap:wrap;background:rgba(8,12,36,.5);border:1px solid var(--line-soft);border-radius:30px;padding:4px}
+.pb-opt{appearance:none;cursor:pointer;border:none;background:none;color:var(--ink-2);font-family:var(--body);font-size:12px;font-weight:600;padding:7px 13px;border-radius:30px;transition:.13s;white-space:nowrap}
+.pb-opt:hover{color:#fff}
+.pb-opt.active{background:var(--navy-bright);color:#fff}
+.pb-note{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--ink-3)}
+@media(max-width:760px){.pb-note{display:none}}
 .c4{grid-column:span 4}.c6{grid-column:span 6}.c8{grid-column:span 8}.c12{grid-column:span 12}
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;grid-column:span 12}
 .kpi{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;position:relative;overflow:hidden}
@@ -499,6 +507,10 @@ body::after{ /* grana */
 .fbox:hover rect{stroke:var(--navy-bright);stroke-width:2.2}
 .fbox:hover .ftxt.go{opacity:1;fill:#9bacff}
 .fbox:hover .fnode{filter:brightness(1.18)}
+.abadge.warn{fill:rgba(245,179,1,.16);stroke:rgba(245,179,1,.55);stroke-width:1}
+.abadge.crit{fill:rgba(225,35,26,.16);stroke:rgba(225,35,26,.55);stroke-width:1}
+.abtext{font-family:var(--mono);font-size:10px;font-weight:700}
+.abtext.warn{fill:var(--warn)} .abtext.crit{fill:var(--red-soft)}
 .fwire{fill:none;stroke:rgba(124,135,184,.35);stroke-width:2}
 .fwire.live{stroke:rgba(84,104,214,.55)}
 .flegend{display:flex;gap:18px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-3);padding:6px 4px 10px}
@@ -777,10 +789,6 @@ svg.line{width:100%;height:auto;display:block}
       <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
       Flusso Dati
     </button>
-    <button class="nav-item" data-screen="home">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-      Cabina di Regia
-    </button>
     <button class="nav-item" data-screen="olap">
       <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 9v12M3 15h18"/></svg>
       Analisi OLAP
@@ -789,10 +797,6 @@ svg.line{width:100%;height:auto;display:block}
       <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
       VoxBI
       <span class="tag dev">AI</span>
-    </button>
-    <button class="nav-item" data-screen="bi">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="7"/><rect x="12" y="7" width="3" height="11"/><rect x="17" y="13" width="3" height="5"/></svg>
-      Insight strategici
     </button>
     <button class="nav-item" data-screen="picking">
       <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4"/></svg>
@@ -852,10 +856,10 @@ svg.line{width:100%;height:auto;display:block}
           <circle r="3.4" fill="#5468d6"><animateMotion dur="2.1s" repeatCount="indefinite"><mpath href="#fo3"/></animateMotion></circle>
           <!-- colonna SORGENTI -->
           <text x="30" y="20" class="ftxt cap">SISTEMI ESISTENTI</text>
-          <g class="fbox" onclick="openDrill('stage:ordini')"><rect class="fnode" x="30" y="34" width="255" height="68" rx="12"/><text x="46" y="64" class="ftxt">Gestionale</text><text x="46" y="84" class="ftxt sm">ordini · clienti · listini · 2s</text></g>
-          <g class="fbox" onclick="openDrill('stage:produzione')"><rect class="fnode attn" x="30" y="142" width="255" height="68" rx="12"/><text x="46" y="172" class="ftxt">MES</text><text x="46" y="192" class="ftxt sm">produzione · cicli · latenza 5s</text></g>
-          <g class="fbox" onclick="openDrill('stage:picking')"><rect class="fnode" x="30" y="250" width="255" height="68" rx="12"/><text x="46" y="280" class="ftxt">App Picking</text><text x="46" y="300" class="ftxt sm">prelievi · tracciabilità · 5s</text></g>
-          <g class="fbox" onclick="openDrill('stage:incassi')"><rect class="fnode" x="30" y="358" width="255" height="68" rx="12"/><text x="46" y="388" class="ftxt">Contabilità</text><text x="46" y="408" class="ftxt sm">fatture · incassi · fido · 1m</text></g>
+          <g class="fbox" onclick="openDrill('stage:ordini')"><rect class="fnode attn" x="30" y="34" width="255" height="68" rx="12"/><text x="46" y="64" class="ftxt">Gestionale</text><text x="46" y="84" class="ftxt sm">ordini · clienti · listini · 2s</text><rect class="abadge warn" x="221" y="44" width="54" height="20" rx="10"/><text class="abtext warn" x="248" y="58" text-anchor="middle">▲ 3</text></g>
+          <g class="fbox" onclick="openDrill('stage:produzione')"><rect class="fnode attn" x="30" y="142" width="255" height="68" rx="12"/><text x="46" y="172" class="ftxt">MES</text><text x="46" y="192" class="ftxt sm">produzione · cicli · latenza 5s</text><rect class="abadge warn" x="221" y="152" width="54" height="20" rx="10"/><text class="abtext warn" x="248" y="166" text-anchor="middle">▲ 2</text></g>
+          <g class="fbox" onclick="openDrill('stage:picking')"><rect class="fnode attn" x="30" y="250" width="255" height="68" rx="12"/><text x="46" y="280" class="ftxt">App Picking</text><text x="46" y="300" class="ftxt sm">prelievi · tracciabilità · 5s</text><rect class="abadge warn" x="221" y="260" width="54" height="20" rx="10"/><text class="abtext warn" x="248" y="274" text-anchor="middle">▲ 1</text></g>
+          <g class="fbox" onclick="openDrill('stage:incassi')"><rect class="fnode crit" x="30" y="358" width="255" height="68" rx="12"/><text x="46" y="388" class="ftxt">Contabilità</text><text x="46" y="408" class="ftxt sm">fatture · incassi · fido · 1m</text><rect class="abadge crit" x="221" y="368" width="54" height="20" rx="10"/><text class="abtext crit" x="248" y="382" text-anchor="middle">▲ 4</text></g>
           <!-- core -->
           <text x="500" y="150" text-anchor="middle" class="ftxt cap">STRATO AI</text>
           <g><rect class="fnode core" x="410" y="168" width="200" height="134" rx="16"/>
@@ -871,7 +875,10 @@ svg.line{width:100%;height:auto;display:block}
           <g class="fbox" onclick="openDrill('magazzino')"><rect class="fnode" x="760" y="328" width="210" height="68" rx="12"/><text x="776" y="358" class="ftxt">Riordini &amp; azioni</text><text x="776" y="378" class="ftxt sm">bozze pronte da approvare</text></g>
         </svg>
         <div class="flegend">
-          <span style="color:var(--ink-3)">Tocca un box per aprire i dati e l'analisi di dettaglio</span>
+          <span><i style="background:var(--line)"></i>Nessun allarme</span>
+          <span><i style="background:var(--warn)"></i>Allarmi da gestire</span>
+          <span><i style="background:var(--red)"></i>Critico</span>
+          <span style="margin-left:auto;color:var(--ink-3)">Il badge ▲ nel box = allarmi aperti · tocca per i dati di dettaglio</span>
         </div>
       </div>
     </div>
@@ -1237,21 +1244,32 @@ svg.line{width:100%;height:auto;display:block}
       <button class="mnav" onclick="toggleRail()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
       <div class="tb-title">
         <h1>BI &amp; Insight strategici</h1>
-        <p>Le dashboard che sostituiscono l'Excel · esercizio in corso 2026</p>
+        <p id="biSub">Le dashboard che sostituiscono l'Excel · esercizio in corso (YTD 2026)</p>
       </div>
       <div class="tb-spacer"></div>
       <button class="btn soft" onclick="toast('info','Report esportato','Report direzionale Giugno 2026 generato in PDF e condiviso con i titolari e il consulente.')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:5px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Esporta report</button>
     </header>
 
     <div class="content">
+      <div class="period-bar">
+        <span class="pb-lbl">Periodo insight</span>
+        <div class="pb-opts" id="biPeriod">
+          <button class="pb-opt" data-p="1m">Ultimo mese</button>
+          <button class="pb-opt" data-p="3m">Ultimo trimestre</button>
+          <button class="pb-opt active" data-p="ytd">Esercizio (YTD)</button>
+          <button class="pb-opt" data-p="12m">Ultimi 12 mesi</button>
+          <button class="pb-opt" data-p="24m">Ultimi 24 mesi</button>
+        </div>
+        <span class="pb-note">max 24 mesi</span>
+      </div>
       <div class="bi-grid">
 
         <!-- KPI strip -->
         <div class="kpi-row">
-          <div class="kpi"><div class="kk">Fatturato YTD</div><div class="kv">€ 2,21M</div><div class="kd up">▲ +6,4% vs 2025</div></div>
-          <div class="kpi"><div class="kk">Marginalità media</div><div class="kv">31,8%</div><div class="kd up">▲ +1,2 pt</div></div>
-          <div class="kpi"><div class="kk">Rotazione magazzino</div><div class="kv">5,4×</div><div class="kd flat">● stabile</div></div>
-          <div class="kpi"><div class="kk">Scaduto / fatturato</div><div class="kv" style="color:var(--red-soft)">20,6%</div><div class="kd down">▼ peggiora +2,3 pt</div></div>
+          <div class="kpi"><div class="kk" id="biFattK">Fatturato YTD</div><div class="kv" id="biFatt">€ 2,21M</div><div class="kd up" id="biFattD">▲ +6,4% vs 2025</div></div>
+          <div class="kpi"><div class="kk">Marginalità media</div><div class="kv" id="biMarg">31,8%</div><div class="kd up" id="biMargD">▲ +1,2 pt</div></div>
+          <div class="kpi"><div class="kk">Rotazione magazzino</div><div class="kv" id="biRot">5,4×</div><div class="kd flat" id="biRotD">● stabile</div></div>
+          <div class="kpi"><div class="kk">Scaduto / fatturato</div><div class="kv" id="biScad" style="color:var(--red-soft)">20,6%</div><div class="kd down" id="biScadD">▼ peggiora +2,3 pt</div></div>
         </div>
 
         <!-- marginalità per famiglia -->
@@ -1282,7 +1300,7 @@ svg.line{width:100%;height:auto;display:block}
                   <circle cx="21" cy="21" r="15.915" fill="none" stroke="#5468d6" stroke-width="6" stroke-dasharray="0 100" stroke-linecap="round" transform="rotate(-90 21 21)" class="dseg" data-dash="71"/>
                   <circle cx="21" cy="21" r="15.915" fill="none" stroke="#e1231a" stroke-width="6" stroke-dasharray="0 100" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 21 21)" class="dseg" data-dash="29" data-gap="71"/>
                 </svg>
-                <div class="cap"><b>€ 2,21M</b><small>totale YTD</small></div>
+                <div class="cap"><b id="biDonut">€ 2,21M</b><small id="biDonutL">totale YTD</small></div>
               </div>
               <div style="flex:1;min-width:160px">
                 <div class="metric"><span class="mk"><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#5468d6;margin-right:7px"></i>Italia</span><span class="mv sm">71% <span class="u">€ 1,57M</span></span></div>
@@ -1399,7 +1417,7 @@ svg.line{width:100%;height:auto;display:block}
         <div class="vox-ask">
           <div class="vox-ask-h">
             <span class="vox-mic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>
-            <div><div class="vox-ttl">VoxBI</div><div class="vox-sub">chiedi in linguaggio naturale</div></div>
+            <div><div class="vox-ttl">VoxBI</div><div class="vox-sub">analisi libera in linguaggio naturale</div></div>
           </div>
           <div class="vox-input-row">
             <input id="voxInput" type="text" autocomplete="off" placeholder="Es. «Margine per cliente in Italia» oppure «Andamento vendite vs budget»" onkeydown="if(event.key==='Enter')voxSubmit()">
@@ -1410,11 +1428,13 @@ svg.line{width:100%;height:auto;display:block}
             <button class="vox-chip" onclick="voxAsk('Come va l\'export rispetto al budget?')">Come va l'export rispetto al budget?</button>
             <button class="vox-chip" onclick="voxAsk('Andamento per mese del venduto')">Andamento per mese del venduto</button>
             <button class="vox-chip" onclick="voxAsk('Marginalità per famiglia di prodotto')">Marginalità per famiglia</button>
-            <button class="vox-chip" onclick="voxAsk('Scaduto per cliente')">Scaduto per cliente</button>
+            <button class="vox-chip" onclick="voxAsk('Margine per cliente in Italia')">Margine per cliente in Italia</button>
+            <button class="vox-chip" onclick="voxAsk('Quantità venduta per regione')">Quantità per regione</button>
+            <button class="vox-chip" onclick="voxAsk('Scaduto per area')">Scaduto per area</button>
           </div>
         </div>
         <div id="voxResults">
-          <div class="vox-empty">Scrivi una richiesta o tocca un esempio: genero <b>narrazione e grafici in tempo reale</b>, scelti in base alla domanda. Tutto offline, su dati sintetici.</div>
+          <div class="vox-empty"><b>Analisi libera sui dati disponibili</b> — come l'OLAP, ma a parole. Combina liberamente <b>misura</b> (fatturato, margine, scaduto, quantità, % budget) + <b>dimensione</b> (cliente, famiglia, area, regione, mese) + <b>filtri</b>: genero narrazione e grafici in tempo reale. Tutto offline, su dati sintetici.</div>
         </div>
       </div>
     </div>
@@ -2152,7 +2172,7 @@ function renderVoxReport(query){
 }
 function voxSubmit(){const q=(document.getElementById('voxInput').value||'').trim();if(!q){toast('info','Scrivi una domanda','Es. «Top 5 clienti per marginalità» o «Andamento vendite vs budget».');return;}renderVoxReport(q);}
 function voxAsk(q){document.getElementById('voxInput').value=q;renderVoxReport(q);}
-function voxReset(){document.getElementById('voxInput').value='';document.getElementById('voxResults').innerHTML='<div class="vox-empty">Scrivi una richiesta o tocca un esempio: genero <b>narrazione e grafici in tempo reale</b>, scelti in base alla domanda. Tutto offline, su dati sintetici.</div>';document.getElementById('voxInput').focus();}
+function voxReset(){document.getElementById('voxInput').value='';document.getElementById('voxResults').innerHTML='<div class="vox-empty"><b>Analisi libera sui dati disponibili</b> — come l\'OLAP, ma a parole. Combina liberamente <b>misura</b> (fatturato, margine, scaduto, quantità, % budget) + <b>dimensione</b> (cliente, famiglia, area, regione, mese) + <b>filtri</b>: genero narrazione e grafici in tempo reale. Tutto offline, su dati sintetici.</div>';document.getElementById('voxInput').focus();}
 
 /* ============================================================
    Analisi OLAP — analyzer ad hoc (stile Pentaho/Saiku)
@@ -2509,6 +2529,36 @@ function chatAgent(it){chatMessages.push({who:'ag',html:it.reply,pill:it.pill,ac
 function chatAsk(q){chatMessages.push({who:'me',html:q});renderChat();setTimeout(function(){chatAgent(chatReply(q));},320);}
 function chatSend(){const el=document.getElementById('chatInput');const v=(el.value||'').trim();if(!v)return;el.value='';chatAsk(v);}
 renderChat(); renderChatChips();
+
+/* ============================================================
+   Insight strategici — periodo selezionabile (max 24 mesi)
+   ============================================================ */
+const BI_PERIODS={
+  '1m':{lbl:'ultimo mese',fatt:'€ 0,42M',fattK:'Fatturato · ultimo mese',marg:'32,1%',rot:'5,6×',scad:'18,2%',donut:'€ 0,42M',donutL:'totale mese',
+    fattD:['▲ +3,1% vs mese prec.','up'],margD:['▲ +0,4 pt','up'],rotD:['● stabile','flat'],scadD:['▼ −0,6 pt · migliora','up']},
+  '3m':{lbl:'ultimo trimestre',fatt:'€ 1,18M',fattK:'Fatturato · trimestre',marg:'31,9%',rot:'5,5×',scad:'19,4%',donut:'€ 1,18M',donutL:'totale trimestre',
+    fattD:['▲ +5,2% vs trim. prec.','up'],margD:['▲ +0,9 pt','up'],rotD:['● stabile','flat'],scadD:['▲ +1,1 pt · peggiora','down']},
+  'ytd':{lbl:'esercizio in corso (YTD 2026)',fatt:'€ 2,21M',fattK:'Fatturato YTD',marg:'31,8%',rot:'5,4×',scad:'20,6%',donut:'€ 2,21M',donutL:'totale YTD',
+    fattD:['▲ +6,4% vs 2025','up'],margD:['▲ +1,2 pt','up'],rotD:['● stabile','flat'],scadD:['▲ +2,3 pt · peggiora','down']},
+  '12m':{lbl:'ultimi 12 mesi',fatt:'€ 4,38M',fattK:'Fatturato · 12 mesi',marg:'31,2%',rot:'5,2×',scad:'19,1%',donut:'€ 4,38M',donutL:'totale 12 mesi',
+    fattD:['▲ +4,1% a/a','up'],margD:['▲ +0,7 pt','up'],rotD:['▼ −0,2','flat'],scadD:['▼ −0,4 pt · migliora','up']},
+  '24m':{lbl:'ultimi 24 mesi',fatt:'€ 8,55M',fattK:'Fatturato · 24 mesi',marg:'30,4%',rot:'4,9×',scad:'17,8%',donut:'€ 8,55M',donutL:'totale 24 mesi',
+    fattD:['▲ +9,3% sul biennio','up'],margD:['▼ −0,6 pt','down'],rotD:['▼ −0,5','down'],scadD:['▼ −2,8 pt · migliora','up']}
+};
+function setBiPeriod(p){
+  const d=BI_PERIODS[p]; if(!d)return;
+  document.querySelectorAll('#biPeriod .pb-opt').forEach(b=>b.classList.toggle('active',b.getAttribute('data-p')===p));
+  const T=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+  const D=function(id,a){var e=document.getElementById(id);if(e){e.textContent=a[0];e.className='kd '+a[1];}};
+  T('biFatt',d.fatt);T('biFattK',d.fattK);D('biFattD',d.fattD);
+  T('biMarg',d.marg);D('biMargD',d.margD);
+  T('biRot',d.rot);D('biRotD',d.rotD);
+  T('biScad',d.scad);D('biScadD',d.scadD);
+  T('biDonut',d.donut);T('biDonutL',d.donutL);
+  T('biSub',"Le dashboard che sostituiscono l'Excel · "+d.lbl);
+  toast('info','Insight ricalcolati','Periodo: '+d.lbl+'. KPI e analisi aggiornati sul periodo selezionato.');
+}
+(function(){var h=document.getElementById('biPeriod'); if(h)h.addEventListener('click',function(e){var b=e.target.closest('.pb-opt'); if(b)setBiPeriod(b.getAttribute('data-p'));});})();
 
 document.addEventListener('keydown',function(e){ if(e.key==='Escape' && document.getElementById('screen-detail').classList.contains('active')) back(); });
 wireDrills();
