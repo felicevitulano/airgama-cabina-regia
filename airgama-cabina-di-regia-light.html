@@ -2076,7 +2076,7 @@ function biNarrative(facts,rowLevels,colLevels,meas){
   } else {bullets.push('Valore complessivo sulla selezione: <strong>'+fq(grand)+'</strong>.');}
   if(['mese','trimestre'].some(l=>colLevels.includes(l)||rowLevels.includes(l))){
     const giu=olapAgg(facts.filter(r=>r.mese==='Giu'),'fatturato'),gen=olapAgg(facts.filter(r=>r.mese==='Gen'),'fatturato');
-    if(gen)bullets.push("Sull'asse temporale il fatturato cresce del <strong>"+Math.round((giu/gen-1)*100)+'%</strong> da gennaio a giugno: trend in accelerazione.');
+    if(gen&&giu)bullets.push("Sull'asse temporale il fatturato cresce del <strong>"+Math.round((giu/gen-1)*100)+'%</strong> da gennaio a giugno: trend in accelerazione.');
   }
   if(rowLevels.includes('famiglia')||colLevels.includes('famiglia')||meas.includes('marginePct'))bullets.push('<strong>Valvole anti-riflusso</strong>: marginalità più alta (41%) ma rotazione lenta — candidate a una promo mirata per liberare ~€ 30k.');
   if(rowLevels.includes('cliente')||colLevels.includes('cliente')||meas.includes('scaduto'))bullets.push('Anomalia su <strong>Edilsud Costruzioni</strong>: margine sotto media e scaduto elevato — la stessa che la cabina ha già intercettato.');
@@ -2109,6 +2109,9 @@ function voxAnalyze(query){
   OLAP_CLI.forEach(c=>{const k=c.name.toLowerCase().split(' ')[0];if(k.length>3&&s.includes(k)){facts=facts.filter(r=>r.cliente===c.name);if(!fl.includes(c.name))fl.push(c.name);}});
   const MESI_FULL={gennaio:'Gen',febbraio:'Feb',marzo:'Mar',aprile:'Apr',maggio:'Mag',giugno:'Giu'};
   Object.keys(MESI_FULL).forEach(mn=>{if(s.includes(mn)){facts=facts.filter(r=>r.mese===MESI_FULL[mn]);fl.push(mn[0].toUpperCase()+mn.slice(1));}});
+  // filtro per trimestre (T1 = gen–mar, T2 = apr–giu)
+  if(/\bt1\b/.test(s)||has('primo trimestre','1° trimestre','1 trimestre','primo trim')){facts=facts.filter(r=>r.trimestre==='T1');fl.push('T1');}
+  else if(/\bt2\b/.test(s)||has('secondo trimestre','2° trimestre','2 trimestre','secondo trim')){facts=facts.filter(r=>r.trimestre==='T2');fl.push('T2');}
   const wantTime=has('andamento','trend','mensile','mese','tempo','crescita','evoluzione','trimestre');
   const wantBudget=has('budget','target','obiettiv','raggiungiment');
   const monthsFat=OLAP_MESI.map(m=>({label:m.name,val:olapAgg(facts.filter(r=>r.mese===m.name),'fatturato')}));
