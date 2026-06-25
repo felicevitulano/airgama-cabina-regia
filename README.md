@@ -23,6 +23,16 @@ Drill-down disponibili su flussi, fonti, allarmi, KPI, famiglie di prodotto, cli
 |------|-------------|
 | [`index.html`](index.html) | **Versione offline self-contained** (~930 KB): font incorporati, zero dipendenze di rete. Si apre con doppio clic ovunque, anche senza internet. È anche la pagina pubblicata via GitHub Pages. |
 | [`airgama-cabina-di-regia-light.html`](airgama-cabina-di-regia-light.html) | Versione leggera (~118 KB): carica i font da Google Fonts (richiede connessione al primo caricamento). |
+| [`voxbi-backend/`](voxbi-backend/) | Backend opzionale Node/Express che fa interpretare le domande di **VoxBI** da Claude (`claude-opus-4-8`). Da eseguire in locale; vedi il suo [README](voxbi-backend/README.md). **Nessuna chiave nel repo** (`.env` è gitignored). |
+
+## VoxBI con Claude (opzionale)
+
+VoxBI funziona in due modalità, in automatico:
+
+- **Offline** (default, anche su GitHub Pages): un parser a regole interpreta la domanda. Nessuna dipendenza, nessuna chiave.
+- **Live con Claude**: se apri la versione *light* in locale e tieni acceso `voxbi-backend/`, le domande vengono tradotte in query OLAP da Claude (badge «interpretato da Claude»), con fallback automatico all'offline se il backend non risponde.
+
+A Claude arriva **solo la domanda + lo schema dei campi**, mai i dati. Istruzioni d'avvio in [`voxbi-backend/README.md`](voxbi-backend/README.md).
 
 ## Come si apre
 
