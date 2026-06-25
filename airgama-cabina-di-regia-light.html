@@ -834,10 +834,10 @@ svg.line{width:100%;height:auto;display:block}
             <linearGradient id="coreGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#283570"/><stop offset="1" stop-color="#1a224f"/></linearGradient>
           </defs>
           <!-- wires sorgenti -> core -->
-          <path id="fs1" class="fwire live" d="M250,68 C340,68 360,195 410,200"/>
-          <path id="fs2" class="fwire" d="M250,176 C340,176 360,222 410,228"/>
-          <path id="fs3" class="fwire live" d="M250,284 C340,284 360,250 410,250"/>
-          <path id="fs4" class="fwire" d="M250,392 C340,392 360,285 410,278"/>
+          <path id="fs1" class="fwire live" d="M285,68 C340,68 360,195 410,200"/>
+          <path id="fs2" class="fwire" d="M285,176 C340,176 360,222 410,228"/>
+          <path id="fs3" class="fwire live" d="M285,284 C340,284 360,250 410,250"/>
+          <path id="fs4" class="fwire" d="M285,392 C340,392 360,285 410,278"/>
           <!-- wires core -> output -->
           <path id="fo1" class="fwire live" d="M610,210 C690,210 700,108 760,108"/>
           <path id="fo2" class="fwire live" d="M610,238 C690,238 700,235 760,235"/>
@@ -852,13 +852,13 @@ svg.line{width:100%;height:auto;display:block}
           <circle r="3.4" fill="#5468d6"><animateMotion dur="2.1s" repeatCount="indefinite"><mpath href="#fo3"/></animateMotion></circle>
           <!-- colonna SORGENTI -->
           <text x="30" y="20" class="ftxt cap">SISTEMI ESISTENTI</text>
-          <g class="fbox" onclick="openDrill('stage:ordini')"><rect class="fnode" x="30" y="34" width="220" height="68" rx="12"/><text x="46" y="64" class="ftxt">Gestionale</text><text x="46" y="84" class="ftxt sm">ordini · clienti · listini · 2s</text></g>
-          <g class="fbox" onclick="openDrill('stage:produzione')"><rect class="fnode attn" x="30" y="142" width="220" height="68" rx="12"/><text x="46" y="172" class="ftxt">MES</text><text x="46" y="192" class="ftxt sm">produzione · cicli · latenza 5s</text></g>
-          <g class="fbox" onclick="openDrill('stage:picking')"><rect class="fnode" x="30" y="250" width="220" height="68" rx="12"/><text x="46" y="280" class="ftxt">App Picking</text><text x="46" y="300" class="ftxt sm">prelievi · tracciabilità · 5s</text></g>
-          <g class="fbox" onclick="openDrill('stage:incassi')"><rect class="fnode" x="30" y="358" width="220" height="68" rx="12"/><text x="46" y="388" class="ftxt">Contabilità</text><text x="46" y="408" class="ftxt sm">fatture · incassi · fido · 1m</text></g>
+          <g class="fbox" onclick="openDrill('stage:ordini')"><rect class="fnode" x="30" y="34" width="255" height="68" rx="12"/><text x="46" y="64" class="ftxt">Gestionale</text><text x="46" y="84" class="ftxt sm">ordini · clienti · listini · 2s</text></g>
+          <g class="fbox" onclick="openDrill('stage:produzione')"><rect class="fnode attn" x="30" y="142" width="255" height="68" rx="12"/><text x="46" y="172" class="ftxt">MES</text><text x="46" y="192" class="ftxt sm">produzione · cicli · latenza 5s</text></g>
+          <g class="fbox" onclick="openDrill('stage:picking')"><rect class="fnode" x="30" y="250" width="255" height="68" rx="12"/><text x="46" y="280" class="ftxt">App Picking</text><text x="46" y="300" class="ftxt sm">prelievi · tracciabilità · 5s</text></g>
+          <g class="fbox" onclick="openDrill('stage:incassi')"><rect class="fnode" x="30" y="358" width="255" height="68" rx="12"/><text x="46" y="388" class="ftxt">Contabilità</text><text x="46" y="408" class="ftxt sm">fatture · incassi · fido · 1m</text></g>
           <!-- core -->
           <text x="500" y="150" text-anchor="middle" class="ftxt cap">STRATO AI</text>
-          <g class="fbox" onclick="goTo('agent')"><rect class="fnode core" x="410" y="168" width="200" height="134" rx="16"/>
+          <g><rect class="fnode core" x="410" y="168" width="200" height="134" rx="16"/>
             <text x="510" y="218" text-anchor="middle" class="ftxt" style="font-size:17px;fill:#fff">Agenti Airgama</text>
             <text x="510" y="244" text-anchor="middle" class="ftxt sm" style="fill:#9bacff">monitora · incrocia</text>
             <text x="510" y="262" text-anchor="middle" class="ftxt sm" style="fill:#9bacff">applica le regole</text>
