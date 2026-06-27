@@ -958,11 +958,13 @@ svg.line{width:100%;height:auto;display:block}
 @media(max-width:860px){
   .rail{position:fixed;left:0;top:0;z-index:120;transform:translateX(-100%);transition:.3s;box-shadow:0 0 60px rgba(0,0,0,.6)}
   .rail.open{transform:none}
-  .mnav{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:10px;background:var(--panel);border:1px solid var(--line);color:var(--ink);cursor:pointer}
-  .topbar{padding:14px 18px}
+  .mnav{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:10px;background:var(--panel);border:1px solid var(--line);color:var(--ink);cursor:pointer;flex:0 0 auto}
+  .topbar{padding:13px 16px;gap:12px;align-items:center}
+  .tb-title{min-width:0}
+  .tb-title p{display:none}
   .content{padding:18px 16px 50px}
   .sources{padding:10px 16px}
-  .tb-title h1{font-size:19px}
+  .tb-title h1{font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .facts{grid-template-columns:1fr}
   .sol{grid-template-columns:1fr;text-align:left}
   .sol .opt{display:none}
@@ -970,6 +972,20 @@ svg.line{width:100%;height:auto;display:block}
   .clock{display:none}
   .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:110}
   .scrim.show{display:block}
+  /* tabelle dati: scroll orizzontale invece di taglio */
+  .panel-b{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .dh-actions{flex-wrap:wrap}
+  .olz{min-width:0}
+}
+/* diagramma flusso: resta leggibile, si scorre in orizzontale */
+@media(max-width:720px){
+  .flow-diagram{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .flow-diagram>svg{min-width:660px}
+}
+@media(max-width:560px){
+  .topbar .btn,.app-h .btn{font-size:12px;padding:9px 12px}
+  .kpi-row{grid-template-columns:1fr}
+  .vox-kpi{min-width:0}
 }
 </style>
 </head>
