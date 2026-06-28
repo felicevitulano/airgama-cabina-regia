@@ -480,6 +480,32 @@ body::after{ /* grana */
 .flow-diagram .dh{display:flex;align-items:center;gap:10px;margin-bottom:6px}
 .flow-diagram .dh h3{font-family:var(--display);font-weight:700;font-size:15px;flex:1}
 .flow-diagram>svg{width:100%;height:auto;display:block}
+/* versione verticale mobile del flusso (nascosta su desktop) */
+.flow-mobile{display:none}
+.fm-cap{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase;margin:4px 2px 9px}
+.fm-card{position:relative;background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);border-left:3px solid var(--line);border-radius:12px;padding:13px 14px;margin-bottom:10px;cursor:pointer;transition:.15s;-webkit-tap-highlight-color:transparent}
+.fm-card:active{transform:scale(.99)}
+.fm-card.attn{border-left-color:var(--warn)}
+.fm-card.crit{border-left-color:var(--red)}
+.fm-card.core{cursor:default;background:linear-gradient(180deg,#283570,#1a224f);border-color:rgba(84,104,214,.55);border-left-color:rgba(84,104,214,.55);text-align:center}
+.fm-card.go{border-left-color:var(--navy-bright)}
+.fm-row{display:flex;align-items:center;gap:10px}
+.fm-t{font-family:var(--display);font-weight:700;font-size:15px;color:var(--ink);flex:1;min-width:0}
+.fm-card.core .fm-t{font-size:16px;color:#fff}
+.fm-sub{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:4px;line-height:1.45}
+.fm-card.core .fm-sub{color:#9bacff;margin-top:6px}
+.fm-card.core .fm-cap{color:#8ea0e8;margin:0 0 6px}
+.fm-badge{font-family:var(--mono);font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px;flex:0 0 auto}
+.fm-badge.warn{background:var(--warn-bg);color:var(--warn)}
+.fm-badge.crit{background:var(--crit-bg);color:var(--red-soft)}
+.fm-go{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--navy-bright);flex:0 0 auto}
+.fm-arrow{display:flex;justify-content:center;align-items:center;gap:6px;color:var(--ink-3);margin:2px 0 8px}
+.fm-arrow svg{width:18px;height:18px}
+.fm-arrow.warn{color:var(--warn)} .fm-arrow.crit{color:var(--red)}
+.fm-arrow .dots{display:flex;gap:4px}
+.fm-arrow .dots i{width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.5;animation:fmpulse 1.4s infinite}
+.fm-arrow .dots i:nth-child(2){animation-delay:.25s} .fm-arrow .dots i:nth-child(3){animation-delay:.5s}
+@keyframes fmpulse{0%,100%{opacity:.25}50%{opacity:1}}
 .pipeline{display:flex;align-items:stretch;gap:4px;overflow-x:auto;padding:6px 2px 10px}
 .stage{flex:1 1 0;min-width:120px;background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);border-top:3px solid var(--line);border-radius:12px;padding:12px 11px;cursor:pointer;transition:.15s;display:flex;flex-direction:column;gap:8px;position:relative}
 .stage:hover{transform:translateY(-3px);border-color:rgba(84,104,214,.6)}
@@ -778,10 +804,12 @@ svg.line{width:100%;height:auto;display:block}
   .dh-actions{flex-wrap:wrap}
   .olz{min-width:0}
 }
-/* diagramma flusso: resta leggibile, si scorre in orizzontale */
+/* diagramma flusso: su mobile uso la versione verticale impilata */
 @media(max-width:720px){
-  .flow-diagram{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .flow-diagram>svg{min-width:660px}
+  .flow-diagram>svg{display:none}
+  .flow-mobile{display:block}
+  .flow-diagram{padding:16px 14px}
+  .flegend{margin-top:6px}
 }
 @media(max-width:560px){
   .topbar .btn,.app-h .btn{font-size:12px;padding:9px 12px}
@@ -899,6 +927,46 @@ svg.line{width:100%;height:auto;display:block}
           <g class="fbox" onclick="goTo('bi')"><rect class="fnode" x="760" y="201" width="210" height="68" rx="12"/><text x="776" y="231" class="ftxt">Insight &amp; BI</text><text x="776" y="251" class="ftxt sm">report · pattern · OLAP</text></g>
           <g class="fbox" onclick="openDrill('magazzino')"><rect class="fnode" x="760" y="328" width="210" height="68" rx="12"/><text x="776" y="358" class="ftxt">Riordini &amp; azioni</text><text x="776" y="378" class="ftxt sm">bozze pronte da approvare</text></g>
         </svg>
+        <!-- versione verticale per mobile -->
+        <div class="flow-mobile">
+          <div class="fm-cap">Sistemi esistenti</div>
+          <div class="fm-card attn" onclick="openDrill('stage:ordini')">
+            <div class="fm-row"><span class="fm-t">Gestionale</span><span class="fm-badge warn">▲ 3</span></div>
+            <div class="fm-sub">ordini · clienti · listini · 2s</div>
+          </div>
+          <div class="fm-card attn" onclick="openDrill('stage:produzione')">
+            <div class="fm-row"><span class="fm-t">MES</span><span class="fm-badge warn">▲ 2</span></div>
+            <div class="fm-sub">produzione · cicli · latenza 5s</div>
+          </div>
+          <div class="fm-card attn" onclick="openDrill('stage:picking')">
+            <div class="fm-row"><span class="fm-t">App Picking</span><span class="fm-badge warn">▲ 1</span></div>
+            <div class="fm-sub">prelievi · tracciabilità · 5s</div>
+          </div>
+          <div class="fm-card crit" onclick="openDrill('stage:incassi')">
+            <div class="fm-row"><span class="fm-t">Contabilità</span><span class="fm-badge crit">▲ 4</span></div>
+            <div class="fm-sub">fatture · incassi · fido · 1m</div>
+          </div>
+          <div class="fm-arrow warn"><span class="dots"><i></i><i></i><i></i></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M6 13l6 6 6-6"/></svg><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="fm-card core">
+            <div class="fm-cap">Strato AI</div>
+            <div class="fm-t">Agenti Airgama</div>
+            <div class="fm-sub">monitora · incrocia · applica le regole · propone la mossa</div>
+          </div>
+          <div class="fm-arrow"><span class="dots"><i></i><i></i><i></i></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M6 13l6 6 6-6"/></svg><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="fm-cap">Dove serve</div>
+          <div class="fm-card go" onclick="goTo('home')">
+            <div class="fm-row"><span class="fm-t">Cabina di Regia</span><span class="fm-go">apri →</span></div>
+            <div class="fm-sub">allarmi instradati</div>
+          </div>
+          <div class="fm-card go" onclick="goTo('bi')">
+            <div class="fm-row"><span class="fm-t">Insight &amp; BI</span><span class="fm-go">apri →</span></div>
+            <div class="fm-sub">report · pattern · OLAP</div>
+          </div>
+          <div class="fm-card go" onclick="openDrill('magazzino')">
+            <div class="fm-row"><span class="fm-t">Riordini &amp; azioni</span><span class="fm-go">apri →</span></div>
+            <div class="fm-sub">bozze pronte da approvare</div>
+          </div>
+        </div>
         <div class="flegend">
           <span><i style="background:var(--line)"></i>Nessun allarme</span>
           <span><i style="background:var(--warn)"></i>Allarmi da gestire</span>
