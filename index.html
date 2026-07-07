@@ -613,6 +613,11 @@ body::after{ /* grana */
 .vox-narr ul{margin:2px 0;padding-left:18px;font-size:13px;line-height:1.6;color:var(--ink-2)}
 .vox-narr ul b,.vox-narr ul strong{color:#fff}
 .vox-sech{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin-bottom:11px}
+.vox-table{margin-bottom:22px}
+.vox-tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px;background:var(--panel-2)}
+.vox-tscroll .dtbl{margin:0}
+.vox-tscroll .dtbl th,.vox-tscroll .dtbl td{padding:9px 14px;white-space:nowrap}
+.vox-tnote{font-size:11px;color:var(--ink-3);margin-top:8px}
 .vox-charts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .vox-chart{background:var(--panel-2);border:1px solid var(--line);border-radius:12px;padding:15px 16px;min-width:0}
 .vox-chart .ct{font-family:var(--display);font-weight:700;font-size:13.5px;color:var(--ink)}
@@ -2451,7 +2456,15 @@ function voxAnalyze(query,displayQuery){
   const lead='Ho letto la richiesta come <strong>'+MEASURES[measure].label+'</strong> per <strong>'+BI_FIELDS[dim].label.toLowerCase()+'</strong>'+topTxt+(fl.length?' · filtri: '+fl.join(', '):'')+'.';
   const bullets=[lead].concat(nar.bullets);
   const headline=((displayQuery||query)||'').trim()?(displayQuery||query).trim():'Panoramica vendite';
-  return {headline,subtitle:MEASURES[measure].label+' per '+BI_FIELDS[dim].label.toLowerCase()+topTxt+(fl.length?' · '+fl.join(', '):''),kpis,charts:charts4,bullets};
+  // Tabella dettaglio analitico: scomposizione per dimensione + riga totale
+  const detCols=[{k:'fatturato',l:'Fatturato'},{k:'margine',l:'Margine €'},{k:'marginePct',l:'Margine %'},{k:'qta',l:'Q.tà'},{k:'achiev',l:'% budget'}];
+  const detGroups=olapDistinct(facts,dim).map(v=>({v,ff:facts.filter(r=>r[dim]===v)})).sort((a,b)=>Math.abs(olapAgg(b.ff,measure))-Math.abs(olapAgg(a.ff,measure)));
+  const detHead='<th>'+BI_FIELDS[dim].label+'</th>'+detCols.map(c=>'<th class="n"'+(c.k===measure?' style="color:var(--navy-bright)"':'')+'>'+c.l+'</th>').join('');
+  const detRows=detGroups.map(g=>'<tr><td>'+g.v+'</td>'+detCols.map(c=>'<td class="n"'+(c.k===measure?' style="color:#fff;font-weight:700"':'')+'>'+olapFmt(olapAgg(g.ff,c.k),c.k)+'</td>').join('')+'</tr>').join('');
+  const detFoot='<td class="tflbl">Totale'+(fl.length?' · '+fl.join(', '):'')+'</td>'+detCols.map(c=>'<td class="n tfval">'+olapFmt(olapAgg(facts,c.k),c.k)+'</td>').join('');
+  const table='<div class="vox-tscroll"><table class="dtbl"><thead><tr>'+detHead+'</tr></thead><tbody>'+detRows+'</tbody><tfoot><tr>'+detFoot+'</tr></tfoot></table></div>'+
+    '<p class="vox-tnote">'+detGroups.length+' righe · '+BI_FIELDS[dim].label.toLowerCase()+(fl.length?' · filtri: '+fl.join(', '):'')+' · colonna evidenziata = misura richiesta</p>';
+  return {headline,subtitle:MEASURES[measure].label+' per '+BI_FIELDS[dim].label.toLowerCase()+topTxt+(fl.length?' · '+fl.join(', '):''),kpis,charts:charts4,bullets,table};
 }
 // Backend Claude: usato solo se la pagina gira in locale (localhost) e il backend risponde; altrimenti parser offline.
 const VOX_BACKEND=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'http://localhost:8787':'';
@@ -2475,6 +2488,7 @@ function voxRenderResult(r,engine){
     '<button class="btn ghost" onclick="voxReset()">Nuova domanda</button></div>'+
     '<div class="vox-kpis">'+kpiHtml+'</div>'+
     '<div class="vox-narr"><span class="av">AI</span><ul>'+bulletsHtml+'</ul></div>'+
+    (r.table?'<div class="vox-sech">Dettaglio analitico</div><div class="vox-table">'+r.table+'</div>':'')+
     '<div class="vox-sech">Grafici generati in tempo reale</div>'+
     '<div class="vox-charts">'+chartsHtml+'</div>'+
   '</div>';
