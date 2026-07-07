@@ -2203,7 +2203,7 @@ function voxAnalyze(query,displayQuery){
   [['valvol','Valvole anti-riflusso'],['griglie','Griglie di aerazione'],['raccordi pp','Raccordi PP'],['raccordi pvc','Raccordi PVC'],['raccordi','Raccordi PVC'],['sifon','Sifoni'],['drenaggio','Drenaggio suolo'],['cassette','Cassette WC']].forEach(([k,nm])=>{if(s.includes(k)&&!fl.includes(nm)){facts=facts.filter(r=>r.famiglia===nm);fl.push(nm);}});
   OLAP_CLI.forEach(c=>{const k=c.name.toLowerCase().split(' ')[0];if(k.length>3&&s.includes(k)){facts=facts.filter(r=>r.cliente===c.name);if(!fl.includes(c.name))fl.push(c.name);}});
   const MESI_FULL={gennaio:'Gen',febbraio:'Feb',marzo:'Mar',aprile:'Apr',maggio:'Mag',giugno:'Giu'};
-  Object.keys(MESI_FULL).forEach(mn=>{if(s.includes(mn)){facts=facts.filter(r=>r.mese===MESI_FULL[mn]);fl.push(mn[0].toUpperCase()+mn.slice(1));}});
+  Object.keys(MESI_FULL).forEach(mn=>{const code=MESI_FULL[mn];const shortRe=new RegExp('\\b'+code.toLowerCase()+'\\b');if((s.includes(mn)||shortRe.test(s))&&!fl.includes(mn[0].toUpperCase()+mn.slice(1))){facts=facts.filter(r=>r.mese===code);fl.push(mn[0].toUpperCase()+mn.slice(1));}});
   // filtro per trimestre (T1 = gen–mar, T2 = apr–giu)
   if(!bothTrim){
     if(/\bt1\b/.test(s)||has('primo trimestre','1° trimestre','1 trimestre','primo trim')){facts=facts.filter(r=>r.trimestre==='T1');fl.push('T1');}
