@@ -2458,12 +2458,17 @@ function voxAnalyze(query,displayQuery){
   const headline=((displayQuery||query)||'').trim()?(displayQuery||query).trim():'Panoramica vendite';
   // Tabella dettaglio analitico: scomposizione per dimensione + riga totale
   const detCols=[{k:'fatturato',l:'Fatturato'},{k:'margine',l:'Margine €'},{k:'marginePct',l:'Margine %'},{k:'qta',l:'Q.tà'},{k:'achiev',l:'% budget'}];
-  const detGroups=olapDistinct(facts,dim).map(v=>({v,ff:facts.filter(r=>r[dim]===v)})).sort((a,b)=>Math.abs(olapAgg(b.ff,measure))-Math.abs(olapAgg(a.ff,measure)));
+  const wantTop=!!(numM&&dim!=='mese'&&dim!=='area');
+  const detAll=olapDistinct(facts,dim).map(v=>({v,ff:facts.filter(r=>r[dim]===v)})).sort((a,b)=>Math.abs(olapAgg(b.ff,measure))-Math.abs(olapAgg(a.ff,measure)));
+  const detGroups=wantTop?detAll.slice(0,limit):detAll;
+  const detVals=detGroups.map(g=>g.v);
+  const detFacts=wantTop?facts.filter(r=>detVals.includes(r[dim])):facts;
   const detHead='<th>'+BI_FIELDS[dim].label+'</th>'+detCols.map(c=>'<th class="n"'+(c.k===measure?' style="color:var(--navy-bright)"':'')+'>'+c.l+'</th>').join('');
   const detRows=detGroups.map(g=>'<tr><td>'+g.v+'</td>'+detCols.map(c=>'<td class="n"'+(c.k===measure?' style="color:#fff;font-weight:700"':'')+'>'+olapFmt(olapAgg(g.ff,c.k),c.k)+'</td>').join('')+'</tr>').join('');
-  const detFoot='<td class="tflbl">Totale'+(fl.length?' · '+fl.join(', '):'')+'</td>'+detCols.map(c=>'<td class="n tfval">'+olapFmt(olapAgg(facts,c.k),c.k)+'</td>').join('');
+  const totLbl='Totale'+(wantTop?' top '+detGroups.length:'')+(fl.length?' · '+fl.join(', '):'');
+  const detFoot='<td class="tflbl">'+totLbl+'</td>'+detCols.map(c=>'<td class="n tfval">'+olapFmt(olapAgg(detFacts,c.k),c.k)+'</td>').join('');
   const table='<div class="vox-tscroll"><table class="dtbl"><thead><tr>'+detHead+'</tr></thead><tbody>'+detRows+'</tbody><tfoot><tr>'+detFoot+'</tr></tfoot></table></div>'+
-    '<p class="vox-tnote">'+detGroups.length+' righe · '+BI_FIELDS[dim].label.toLowerCase()+(fl.length?' · filtri: '+fl.join(', '):'')+' · colonna evidenziata = misura richiesta</p>';
+    '<p class="vox-tnote">'+detGroups.length+(wantTop?' righe (top '+limit+' su '+detAll.length+')':' righe')+' · '+BI_FIELDS[dim].label.toLowerCase()+(fl.length?' · filtri: '+fl.join(', '):'')+' · colonna evidenziata = misura richiesta</p>';
   return {headline,subtitle:MEASURES[measure].label+' per '+BI_FIELDS[dim].label.toLowerCase()+topTxt+(fl.length?' · '+fl.join(', '):''),kpis,charts:charts4,bullets,table};
 }
 // Backend Claude: usato solo se la pagina gira in locale (localhost) e il backend risponde; altrimenti parser offline.
