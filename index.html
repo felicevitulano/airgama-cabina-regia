@@ -2375,8 +2375,8 @@ function biNarrative(facts,rowLevels,colLevels,meas){
     const giu=olapAgg(facts.filter(r=>r.mese==='Giu'),'fatturato'),gen=olapAgg(facts.filter(r=>r.mese==='Gen'),'fatturato');
     if(gen&&giu)bullets.push("Sull'asse temporale il fatturato cresce del <strong>"+Math.round((giu/gen-1)*100)+'%</strong> da gennaio a giugno: trend in accelerazione.');
   }
-  if(rowLevels.includes('famiglia')||colLevels.includes('famiglia')||meas.includes('marginePct'))bullets.push('<strong>Valvole anti-riflusso</strong>: marginalità più alta (41%) ma rotazione lenta — candidate a una promo mirata per liberare ~€ 30k.');
-  if(rowLevels.includes('cliente')||colLevels.includes('cliente')||meas.includes('scaduto'))bullets.push('Anomalia su <strong>Edilsud Costruzioni</strong>: margine sotto media e scaduto elevato — la stessa che la cabina ha già intercettato.');
+  if((rowLevels.includes('famiglia')||colLevels.includes('famiglia')||meas.includes('marginePct'))&&facts.some(r=>r.famiglia==='Valvole anti-riflusso'))bullets.push('<strong>Valvole anti-riflusso</strong>: marginalità più alta (41%) ma rotazione lenta — candidate a una promo mirata per liberare ~€ 30k.');
+  if((rowLevels.includes('cliente')||colLevels.includes('cliente')||meas.includes('scaduto'))&&facts.some(r=>r.cliente==='Edilsud Costruzioni'))bullets.push('Anomalia su <strong>Edilsud Costruzioni</strong>: margine sotto media e scaduto elevato — la stessa che la cabina ha già intercettato.');
   return {bullets:bullets.slice(0,4),grand};
 }
 function voxAnalyze(query,displayQuery){
@@ -2447,22 +2447,25 @@ function voxAnalyze(query,displayQuery){
   }
   if(charts.length<2)charts.push(lineBudget);
   const charts4=charts.slice(0,4);
-  const kFat=olapAgg(facts,'fatturato'),kMar=olapAgg(facts,'marginePct'),kScad=olapAgg(facts,'scaduto'),kAch=olapAgg(facts,'achiev');
-  const kpis=[{v:olapFmt(kFat,'fatturato'),l:'Fatturato',c:'#eef0fa'},{v:olapFmt(kMar,'marginePct'),l:'Margine medio',c:'#25c46b'}];
-  if(wantBudget)kpis.push({v:olapFmt(kAch,'achiev'),l:'% su budget',c:olapBarColor('achiev',kAch)});
-  else kpis.push({v:olapFmt(kScad,'scaduto'),l:'Scaduto',c:'#ff5b50'});
-  const nar=biNarrative(facts,dim==='mese'?['mese']:[dim],dim==='mese'?[]:['mese'],[measure]);
+  const wantTop=!!(numM&&dim!=='mese'&&dim!=='area');
+  const rankVals=rank.map(x=>x.label);
+  const scopeFacts=wantTop?facts.filter(r=>rankVals.includes(r[dim])):facts;
+  const topSuffix=wantTop?' · top '+rank.length:'';
+  const kFat=olapAgg(scopeFacts,'fatturato'),kMar=olapAgg(scopeFacts,'marginePct'),kScad=olapAgg(scopeFacts,'scaduto'),kAch=olapAgg(scopeFacts,'achiev');
+  const kpis=[{v:olapFmt(kFat,'fatturato'),l:'Fatturato'+topSuffix,c:'#eef0fa'},{v:olapFmt(kMar,'marginePct'),l:'Margine medio'+topSuffix,c:'#25c46b'}];
+  if(wantBudget)kpis.push({v:olapFmt(kAch,'achiev'),l:'% su budget'+topSuffix,c:olapBarColor('achiev',kAch)});
+  else kpis.push({v:olapFmt(kScad,'scaduto'),l:'Scaduto'+topSuffix,c:'#ff5b50'});
+  const nar=biNarrative(scopeFacts,dim==='mese'?['mese']:[dim],dim==='mese'?[]:['mese'],[measure]);
   const topTxt=(numM&&dim!=='mese'&&dim!=='area')?' · top '+limit:'';
   const lead='Ho letto la richiesta come <strong>'+MEASURES[measure].label+'</strong> per <strong>'+BI_FIELDS[dim].label.toLowerCase()+'</strong>'+topTxt+(fl.length?' · filtri: '+fl.join(', '):'')+'.';
   const bullets=[lead].concat(nar.bullets);
   const headline=((displayQuery||query)||'').trim()?(displayQuery||query).trim():'Panoramica vendite';
   // Tabella dettaglio analitico: scomposizione per dimensione + riga totale
   const detCols=[{k:'fatturato',l:'Fatturato'},{k:'margine',l:'Margine €'},{k:'marginePct',l:'Margine %'},{k:'qta',l:'Q.tà'},{k:'achiev',l:'% budget'}];
-  const wantTop=!!(numM&&dim!=='mese'&&dim!=='area');
   const detAll=olapDistinct(facts,dim).map(v=>({v,ff:facts.filter(r=>r[dim]===v)})).sort((a,b)=>Math.abs(olapAgg(b.ff,measure))-Math.abs(olapAgg(a.ff,measure)));
   const detGroups=wantTop?detAll.slice(0,limit):detAll;
   const detVals=detGroups.map(g=>g.v);
-  const detFacts=wantTop?facts.filter(r=>detVals.includes(r[dim])):facts;
+  const detFacts=scopeFacts;
   const detHead='<th>'+BI_FIELDS[dim].label+'</th>'+detCols.map(c=>'<th class="n"'+(c.k===measure?' style="color:var(--navy-bright)"':'')+'>'+c.l+'</th>').join('');
   const detRows=detGroups.map(g=>'<tr><td>'+g.v+'</td>'+detCols.map(c=>'<td class="n"'+(c.k===measure?' style="color:#fff;font-weight:700"':'')+'>'+olapFmt(olapAgg(g.ff,c.k),c.k)+'</td>').join('')+'</tr>').join('');
   const totLbl='Totale'+(wantTop?' top '+detGroups.length:'')+(fl.length?' · '+fl.join(', '):'');
